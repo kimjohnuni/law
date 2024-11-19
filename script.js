@@ -45,6 +45,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+
+
+
+
+
+
 var lastScrollTop = 0;
 var navHeader = $(".nav-header");
 var isVisible = true;
@@ -75,6 +82,9 @@ $(window).scroll(throttle(function() {
 
     lastScrollTop = currentScrollTop;
 }, 100)); // Adjust the throttle time as needed
+
+
+
 
 
 
@@ -164,5 +174,50 @@ function closeInfo(id) {
 window.addEventListener('resize', () => {
     if (currentInfoPanelId !== null) {
         toggleInfo(currentInfoPanelId);
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const video = document.querySelector('.video-container video');
+    const content = document.querySelector('.content');
+
+    // Initially hide content
+    content.style.opacity = '0';
+
+    // Function to initialize content
+    function initializeContent() {
+        content.style.opacity = '1';
+        new WOW().init();
+    }
+
+    // Check if video is already loaded
+    if (video.readyState >= 3) {
+        initializeContent();
+    } else {
+        // Wait for video to be ready to play
+        video.addEventListener('canplay', function onCanPlay() {
+            initializeContent();
+            // Remove listener after first trigger
+            video.removeEventListener('canplay', onCanPlay);
+        });
+
+        // Fallback if video takes too long
+        setTimeout(() => {
+            if (content.style.opacity === '0') {
+                initializeContent();
+            }
+        }, 2000); // 2 second fallback
     }
 });
