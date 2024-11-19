@@ -984,6 +984,19 @@ opacity: 0.8;
     border-color: rgba(0,0,0,.125) !important;
 }
 
+.accordion-collapse {
+    position: relative;
+    z-index: 1;
+}
+
+.accordion-collapse.show {
+    height: auto !important;
+    overflow: visible;
+}
+
+
+
+
 .accordion-button.collapsed:focus {
     box-shadow: none !important;
     border-color: rgba(0,0,0,.125) !important;
@@ -995,10 +1008,15 @@ opacity: 0.8;
 
 .accordion-item {
     border: 1px solid rgba(0,0,0,.125) !important;
+    position: relative;
+    z-index: 2;
 }
 
 .case-container {
-  height:80vh;
+    height: auto;
+    min-height: 80vh;
+    position: relative;
+    z-index: 1;
 }
 
 
@@ -1143,6 +1161,10 @@ margin-left: 0px;
   margin-left: 10px; /* Space between the > and the "Partners" text */
 }
 
+.achievement-accordion .accordion-button::after {
+        display: none;
+    }
+
 /*Achievement*/
 .achievement-image {
         width: 100%;
@@ -1163,6 +1185,24 @@ margin-left: 0px;
     .achievement-accordion .accordion-button::after {
         top: 1.3rem; /* Adjusted position for mobile */
         right: 1.5rem;
+    }
+
+    .case-container {
+        height: auto;
+        margin-bottom: 2rem;
+    }
+
+    .accordion-body {
+        overflow: visible;
+    }
+
+    .achievement-accordion {
+        overflow: visible;
+    }
+
+    .container-fluid {
+        position: relative;
+        z-index: 0;
     }
 
 
