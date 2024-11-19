@@ -706,7 +706,8 @@ iframe {
 
 .expertise-section-container {
 margin-left: 100px;
-height: 80vh;
+height: auto;
+  min-height:80vh;
 }
 
 .expertise-header {
