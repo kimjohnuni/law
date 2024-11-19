@@ -176,12 +176,3 @@ window.addEventListener('resize', () => {
         toggleInfo(currentInfoPanelId);
     }
 });
-
-
-
-
-
-
-
-
-
