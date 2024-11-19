@@ -707,7 +707,7 @@ iframe {
 .expertise-section-container {
 margin-left: 100px;
 height: auto;
-  min-height:80vh;
+min-height:80vh;
 }
 
 .expertise-header {
@@ -1054,181 +1054,201 @@ color:#777777;
 font-weight:500;
 }
 
-
-
 .copyright {
   color:#777777;
   font-size:8pt;
   padding-top: 20px;
   padding-bottom: 30px;
-  border-top: 1px solid #777777;
+}
+
+/* Updated footer link styles */
+.footer-link {
+    font-family: "Noto Sans KR", sans-serif !important;
+    font-size: 10pt;
+    color: #777777;
+    text-decoration: none;
+    font-weight: 300;
+}
+
+.footer-link:hover,
+.footer-link:visited,
+.footer-link:active {
+    color: #777777;
+    text-decoration: none;
+}
+
+/* Add this new style for the parent site paragraph */
+.parent-site-text {
+    line-height: 15px;
 }
 
 
-
-
-@media only screen and (max-width: 576px) {
-
-.navigation {
-  .kor-nav-text a {
-      font-size: 4vw;
-}
-
-h1 a{
-  font-size: 8vw;
-}
-}
-
-.nav-wrap {
-  margin-top:80px;
-  padding: 20px;
-}
-
-.toggle-button {
-  padding-left:30px;
-  padding-top:30px;
-  padding-right:15px;
-}
-
-.content {
-position: absolute;
-text-align:center;
-padding-left:50px;
-padding-right:50px;
-}
-
-.content h1 {
-  font-size: 3em;
-  color:#bb9f52;
-}
-
-.content p{
-  font-family: "Montserrat", sans-serif;
-  font-weight: 300;
-}
-
-.copyright {
-  font-size:6pt;
-  padding-left:20px;
-  padding-right:50px;
-}
-
-footer p{
-font-size:8pt;
-line-height:25px;
-text-align: center;
-}
-
-.footer-logo {
-text-align: center;
-}
-
-.footer-padding {
-padding-left:20px;
-padding-right:20px;
-}
-
-/*EXPERTISE*/
-
-.expertise-section-container {
-margin-left: 0px;
-height: 70vh;
-}
-
-.expertise-text {
-font-size: .9em;
-}
-
-
-
-
-}
-
-
-@media screen and (max-width: 768px) {
-
-   /*EXPERTISE*/
-.expertise-section-container {
-margin-left: 0px;
-}
-
-.pn-link {
-  font-size:2em;
-}
-
-.angle-bracket {
-  font-size: 2rem; /* Match the font size of the display-4 text */
-  margin-right: 10px; /* Space between the < and the "Company" text */
-  margin-left: 10px; /* Space between the > and the "Partners" text */
-}
-
-.achievement-accordion .accordion-button::after {
-        display: none;
-    }
-
-/*Achievement*/
-.achievement-image {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 2/3; /* This maintains the original image proportion */
-    }
-
-    .achievement-text {
-        padding-right: 2rem; /* Slightly reduced padding for mobile */
-        width: 100%;
-        margin-left: 0 !important; /* Override Bootstrap's margin */
-    }
-
-    .achievement-accordion .accordion-button {
-        padding: 1.5rem; /* Slightly reduced padding for mobile */
-    }
-
-    .achievement-accordion .accordion-button::after {
-        top: 1.3rem; /* Adjusted position for mobile */
-        right: 1.5rem;
-    }
-
-    .case-container {
-        height: auto;
-        margin-bottom: 2rem;
-    }
-
-    .accordion-body {
-        overflow: visible;
-    }
-
-    .achievement-accordion {
-        overflow: visible;
-    }
-
-    .container-fluid {
-        position: relative;
-        z-index: 0;
-    }
-
-
-}
 
 
 
 @media screen and (min-width: 1400px) {
   .element {
-    /* Apply some styles */
+      /* Apply styles for large screens */
   }
-
 }
 
-
+/* Desktop and Tablet Landscape */
 @media (max-width: 1024px) {
   .profile-cards {
-    grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, 1fr);
   }
-
 }
 
-@media (max-width: 640px) {
-  .profile-cards {
-    grid-template-columns: 1fr;
+/* Tablet Portrait */
+@media screen and (max-width: 768px) {
+  /* Expertise Section */
+  .expertise-section-container {
+      margin-left: 0;
   }
 
+  .pn-link {
+      font-size: 2em;
+  }
+
+  .angle-bracket {
+      font-size: 2rem;
+      margin-right: 10px;
+      margin-left: 10px;
+  }
+
+  /* Achievement Section */
+  .achievement-accordion .accordion-button {
+      padding: 1.5rem;
+  }
+
+  .achievement-accordion .accordion-button::after {
+      display: none;
+  }
+
+  .achievement-image {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 2/3;
+  }
+
+  .achievement-text {
+      padding-right: 2rem;
+      width: 100%;
+      margin-left: 0 !important;
+  }
+
+  .case-container {
+      height: auto;
+      margin-bottom: 2rem;
+  }
+
+  .accordion-body,
+  .achievement-accordion {
+      overflow: visible;
+  }
+
+  .container-fluid {
+      position: relative;
+      z-index: 0;
+  }
+}
+
+/* Mobile Landscape */
+@media (max-width: 640px) {
+  .profile-cards {
+      grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile Portrait */
+@media screen and (max-width: 576px) {
+  /* Navigation */
+
+  .korean-text {
+        font-size: 14px;
+    }
+
+    .english-text {
+        font-size: 40px;
+        top: -2px;
+    }
+
+    /* Rest of your existing 576px media query styles */
+    .kor-nav-text a {
+        font-size: 4vw;
+    }
+
+  .kor-nav-text a {
+      font-size: 4vw;
+  }
+
+  h1 a {
+      font-size: 8vw;
+  }
+
+  .nav-wrap {
+      margin-top: 80px;
+      padding: 20px;
+  }
+
+  .toggle-button {
+      padding: 30px 15px 0 30px;
+  }
+
+  /* Content */
+  .content {
+      position: absolute;
+      text-align: center;
+      padding: 0 50px;
+  }
+
+  .content h1 {
+      font-size: 3em;
+      color: #bb9f52;
+  }
+
+  .content p {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 300;
+  }
+
+  /* Footer */
+  .copyright {
+      font-size: 6pt;
+      padding: 20px 20px 30px 20px;
+  }
+
+  footer p {
+      font-size: 8pt;
+      line-height: 25px;
+      text-align: center;
+  }
+
+  .footer-logo {
+      text-align: center;
+  }
+
+  .footer-padding {
+      padding: 0 20px;
+  }
+
+  /* Links and Sections */
+  .pn-link {
+      font-size: 1.5em;
+      color: #bb9f52;
+  }
+
+  .kor-txt {
+  margin-bottom: 0px !important;
+  font-size:1em;
+  }
+
+  .expertise-section-container {
+      margin-left: 0;
+      height: 70vh;
+  }
+
+  .expertise-text {
+      font-size: 0.9em;
+  }
 }
