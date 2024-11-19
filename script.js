@@ -176,3 +176,26 @@ window.addEventListener('resize', () => {
         toggleInfo(currentInfoPanelId);
     }
 });
+
+
+
+
+
+
+
+
+
+
+$(document).ready(function() {
+    // Wait for the video to load before triggering animations
+    $('#background-video').on('loadeddata', function() {
+        // Initialize WOW.js after the video is loaded
+        new WOW().init();
+
+        // Make sure the animated elements are visible and add animation classes
+        $('#content .wow').each(function() {
+            $(this).css('visibility', 'visible'); // Ensure elements are visible
+            $(this).addClass('animate__animated'); // Add animation class
+        });
+    });
+});
