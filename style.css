@@ -769,7 +769,7 @@ color: #777777;
 font-family: "Noto Sans KR", sans-serif;
 font-size: 1em;
 font-weight: 400;
-width:360px;
+max-width:360px;
 margin-top:15px;
 }
 
@@ -1144,34 +1144,25 @@ margin-left: 0px;
 }
 
 /*Achievement*/
-.accordion-body {
-        padding: 1rem;
-        text-align: left;
-    }
-
-    .accordion-content {
-        padding-left: 0;
-        text-align: left;
-    }
-
-    .accordion-content-text {
-        padding-left: 0;
-        margin-left: 0;
-        text-align: left;
-        margin-left:0px;
-    }
-
-    .achievement-accordion .accordion-button {
-        padding: 1rem;
-    }
-
-    .achievement-preview {
-        padding-left: 0;
+.achievement-image {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 2/3; /* This maintains the original image proportion */
     }
 
     .achievement-text {
-        text-align: left;
+        padding-right: 2rem; /* Slightly reduced padding for mobile */
         width: 100%;
+        margin-left: 0 !important; /* Override Bootstrap's margin */
+    }
+
+    .achievement-accordion .accordion-button {
+        padding: 1.5rem; /* Slightly reduced padding for mobile */
+    }
+
+    .achievement-accordion .accordion-button::after {
+        top: 1.3rem; /* Adjusted position for mobile */
+        right: 1.5rem;
     }
 
 
