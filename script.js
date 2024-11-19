@@ -187,15 +187,26 @@ window.addEventListener('resize', () => {
 
 
 $(document).ready(function() {
-    // Wait for the video to load before triggering animations
+    // Wait for the video to load before showing text
     $('#background-video').on('loadeddata', function() {
-        // Initialize WOW.js after the video is loaded
-        new WOW().init();
+        // Delay for a slight moment before starting text animations
+        setTimeout(function() {
+            // Make content visible
+            $('#content').css('visibility', 'visible');
 
-        // Make sure the animated elements are visible and add animation classes
-        $('#content .wow').each(function() {
-            $(this).css('visibility', 'visible'); // Ensure elements are visible
-            $(this).addClass('animate__animated'); // Add animation class
-        });
+            // Trigger animate.css animations
+            $('#content .animate__animated').each(function() {
+                $(this).addClass('animate__fadeIn'); // Add fadeIn animation class
+            });
+
+            // If you want to trigger WOW.js animations as well
+            if (typeof WOW !== 'undefined') { // Check if WOW is defined
+                new WOW().init(); // Reinitialize WOW.js to apply animations
+            }
+        }, 300); // Adjust the delay time (in milliseconds) as needed
     });
 });
+
+
+
+
