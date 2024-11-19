@@ -193,39 +193,30 @@ document.addEventListener('DOMContentLoaded', function() {
     const video = document.querySelector('.video-container video');
     const content = document.querySelector('.content');
 
-    // Initially hide all content
+    // Make sure video plays
+    video.play().catch(function(error) {
+        console.log("Video play failed:", error);
+    });
+
+    // Initially hide content
     content.style.opacity = '0';
 
-    // Function to start animations
-    function startAnimations() {
-        // Small delay to ensure video is visible first
+    // Wait for video to start playing
+    video.addEventListener('playing', function videoStarted() {
         setTimeout(() => {
             content.style.opacity = '1';
             new WOW().init();
-        }, 100);
-    }
+        }, 300); // Small delay after video starts
 
-    // Primary video loading check
-    video.addEventListener('loadeddata', function onVideoLoad() {
-        if (video.readyState >= 3) {
-            startAnimations();
-            video.removeEventListener('loadeddata', onVideoLoad);
-        }
+        // Remove the event listener after it's used
+        video.removeEventListener('playing', videoStarted);
     });
 
-    // Secondary check for video loading
-    video.addEventListener('playing', function onPlaying() {
-        if (content.style.opacity === '0') {
-            startAnimations();
-            video.removeEventListener('playing', onPlaying);
-        }
-    });
-
-    // Fallback timer (adjust the time as needed)
+    // Fallback if video takes too long
     setTimeout(() => {
         if (content.style.opacity === '0') {
-            startAnimations();
+            content.style.opacity = '1';
+            new WOW().init();
         }
-    }, 3000); // 3 second fallback
+    }, 2000); // 2 second fallback
 });
-
