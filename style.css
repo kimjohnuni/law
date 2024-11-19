@@ -229,7 +229,15 @@ body, html {
 
 
 
-
+.video-container video {
+  position:relative;
+  z-index:-1;
+  width:100vw;
+  max-width: 100%;
+  height:100vh;
+  object-fit: cover;
+  display: block;
+}
 
 .showcase {
   position: relative;
@@ -238,14 +246,13 @@ body, html {
   height:100vh;
 }
 
- 
-
-  
-
-  .content {
-      position: absolute;
-      text-align: center;
-      padding: 0 50px;
+.content {
+  position: absolute;
+  width: 100%;
+  height: 20px;
+  text-align: center;
+  top: 30%;
+  left: 0%;
 }
 
 .content h1, p {
@@ -261,7 +268,7 @@ body, html {
 
 .content p{
   font-family: "Montserrat", sans-serif;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 
@@ -513,7 +520,7 @@ margin-top: 100px;
 .company-accordion .card-body { /* Target card-body as well */
     color: #777777 !important;
     line-height: 2rem;
-    font-weight: 200;
+    font-weight: 400;
 }
 
 /* Also change the color of text inside <strong> tags */
@@ -669,7 +676,7 @@ iframe {
 
 /* Add space at the bottom of the text block */
 .location-header-subtext p {
-  font-weight:100;
+  font-weight:400;
   font-family: "Noto Sans KR", sans-serif;
   margin-top: 10px;  /* Adjust as needed */
   color: #777777 !important;  /* Force the color */
@@ -706,7 +713,7 @@ iframe {
 
 /* Add space at the bottom of the text block */
 .contact-header-subtext p {
-  font-weight: 100;
+  font-weight: 400;
   font-family: "Noto Sans KR", sans-serif;
   margin-top: 10px;  /* Adjust as needed */
   color: #777777 !important;  /* Force the color */
@@ -715,7 +722,7 @@ iframe {
 .contact-header-subtext a {
 
   font-family: "Cormorant Garamond", serif;
-  font-weight: 200;
+  font-weight: 400;
   text-decoration: none;
   margin-top: 10px;  /* Adjust as needed */
   color: #777777;  /* Initial color */
@@ -1255,29 +1262,12 @@ font-weight:500;
   }
 
   /* Content */
-
-
-.video-container {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
-.video-container video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
   .content {
       position: absolute;
       text-align: center;
       padding: 0 50px;
-    transition: opacity 0.5s ease;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
 
+  }
 
   .content h1 {
       font-size: 3em;
