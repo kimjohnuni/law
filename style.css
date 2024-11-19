@@ -440,96 +440,144 @@ font-size: 3.5em;
   font-family: "Cormorant Garamond", serif;
 }
 
-.accordion-button::after {
-  background-image: none !important;
-  content: '+' !important;
-  font-size: 32px; /* Increased from 24px to 32px */
-  font-weight: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: auto;
-  height: auto;
-  transform: none;
-  font-family: Arial, sans-serif;
+
+
+
+
+.company-accordion .accordion-collapse {
+    transition: all 0.35s ease !important;
+    position: relative;
+    z-index: 1;
 }
 
-.accordion-button:not(.collapsed)::after {
-  content: '\00D7' !important;
-  font-weight: 100;
-  transform: none;
+.company-accordion .accordion-collapse.collapsing {
+    height: 0;
+    overflow: hidden;
+}
+
+.company-accordion .accordion-collapse.show {
+    overflow: visible;
+}
+
+/* Company Accordion Specific Styles */
+.company-accordion .accordion-button::after {
+    background-image: url('accordion-open-close.png') !important;
+    content: '' !important;
+    width: 20px !important;
+    height: 20px !important;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: transform 0.2s ease-in-out;
+    transform: rotate(0deg);
+}
+
+.company-accordion .accordion-button:not(.collapsed)::after {
+    content: '' !important;
+    transform: rotate(135deg) !important;
+    background-image: url('accordion-open-close.png') !important;
+}
+
+.company-accordion .accordion-button:hover::after {
+    background-image: url('accordion-open-close-hover.png') !important;
+}
+
+.company-accordion .accordion-button:not(.collapsed):hover::after {
+    background-image: url('accordion-open-close-hover.png') !important;
 }
 
 /* Change text color to #777777 */
-.accordion-button,
-.accordion-header {
-  color: #777777 !important;
-  font-size: 24px;
+.company-accordion .accordion-button,
+.company-accordion .accordion-header {
+    color: #777777 !important;
+    font-size: 24px;
 }
 
-.accordion-button {
-  font-size: 20px !important; /* Adjust this value to your preferred font size */
+.company-accordion .accordion-button {
+    font-size: 20px !important; /* Adjust this value to your preferred font size */
 }
 
-.accordion-button strong,
-.accordion-header strong {
-  color: #777777 !important;
-  font-size: 20px;
+.company-accordion .accordion-button strong,
+.company-accordion .accordion-header strong {
+    color: #777777 !important;
+    font-size: 20px;
 }
 
-.accordion-body,
-.card-body { /* Target card-body as well */
-  color: #777777 !important;
-  line-height: 2rem;
-  font-weight:200;
+.company-accordion .accordion-body,
+.company-accordion .card-body { /* Target card-body as well */
+    color: #777777 !important;
+    line-height: 2rem;
+    font-weight: 200;
 }
 
 /* Also change the color of text inside <strong> tags */
-.card-body strong {
-  color: #777777 !important;
+.company-accordion .card-body strong {
+    color: #777777 !important;
 }
 
-.accordion-body strong {
-  color: #bb9f52 !important;
+.company-accordion .accordion-body strong {
+    color: #bb9f52 !important;
 }
 
 /* Hover effect for accordion button */
-.accordion-button:hover strong {
-  color: #bb9f52 !important; /* Change the text color to #bb9f52 */
+.company-accordion .accordion-button:hover strong {
+    color: #bb9f52 !important; /* Change the text color to #bb9f52 */
 }
 
-.accordion-button:hover {
-  color: #bb9f52 !important; /* Change the text color to #bb9f52 */
+.company-accordion .accordion-button:hover {
+    color: #bb9f52 !important; /* Change the text color to #bb9f52 */
 }
 
-.accordion-icon {
-  width: 40px; /* Adjust the size of the image */
-  height: 40px;
-  margin-right: 30px; /* Add space between the image and text */
-  vertical-align: middle; /* Align the image vertically with the text */
-  display: inline-block;
+.company-accordion .accordion-icon {
+    width: 40px; /* Adjust the size of the image */
+    height: 40px;
+    margin-right: 30px; /* Add space between the image and text */
+    vertical-align: middle; /* Align the image vertically with the text */
+    display: inline-block;
 }
 
-.accordion-image-icon {
-  width:65px;
-  height: 65px;
-  object-fit: cover; /* This ensures the image maintains its aspect ratio */
-  margin-left: 50px;
+.company-accordion .accordion-image-icon {
+    width: 65px;
+    height: 65px;
+    object-fit: cover; /* This ensures the image maintains its aspect ratio */
+    margin-left: 50px;
 }
 
-.accordion-image-icon_second {
-  width:80px;
-  height: 80px;
-  object-fit: cover; /* This ensures the image maintains its aspect ratio */
-  margin-left: 50px;
+.company-accordion .accordion-image-icon_second {
+    width: 80px;
+    height: 80px;
+    object-fit: cover; /* This ensures the image maintains its aspect ratio */
+    margin-left: 50px;
 }
 
-.accordion-image-icon_third {
-  width:80px;
-  height: 80px;
-  object-fit: cover; /* This ensures the image maintains its aspect ratio */
-  margin-left: 50px;
+.company-accordion .accordion-image-icon_third {
+    width: 80px;
+    height: 80px;
+    object-fit: cover; /* This ensures the image maintains its aspect ratio */
+    margin-left: 50px;
 }
+
+/* Additional Bootstrap overrides */
+.company-accordion .accordion-button:focus {
+    box-shadow: none !important;
+}
+
+.company-accordion .accordion-button.collapsed:focus {
+    box-shadow: none !important;
+}
+
+.company-accordion .accordion-button {
+    outline: none !important;
+}
+
+.company-accordion .accordion-item {
+    border: 0 !important;
+    border-bottom: 1px solid rgba(0,0,0,.125) !important;
+    position: relative;
+    z-index: 1;
+}
+
+
 
 .image-container {
   display: flex;
