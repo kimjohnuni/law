@@ -185,38 +185,3 @@ window.addEventListener('resize', () => {
 
 
 
-
-
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const video = document.querySelector('.video-container video');
-    const content = document.querySelector('.content');
-
-    // Make sure video plays
-    video.play().catch(function(error) {
-        console.log("Video play failed:", error);
-    });
-
-    // Initially hide content
-    content.style.opacity = '0';
-
-    // Wait for video to start playing
-    video.addEventListener('playing', function videoStarted() {
-        setTimeout(() => {
-            content.style.opacity = '1';
-            new WOW().init();
-        }, 300); // Small delay after video starts
-
-        // Remove the event listener after it's used
-        video.removeEventListener('playing', videoStarted);
-    });
-
-    // Fallback if video takes too long
-    setTimeout(() => {
-        if (content.style.opacity === '0') {
-            content.style.opacity = '1';
-            new WOW().init();
-        }
-    }, 2000); // 2 second fallback
-});
