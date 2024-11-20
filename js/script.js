@@ -1,3 +1,17 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function openMenu() {
     const overlay = document.getElementById("overlay-nav");
     document.documentElement.style.overflow = 'hidden';
@@ -52,6 +66,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+
+
 var lastScrollTop = 0;
 var navHeader = $(".nav-header");
 var isVisible = true;
@@ -72,22 +89,32 @@ function throttle(fn, wait) {
 $(window).scroll(throttle(function() {
     var currentScrollTop = $(this).scrollTop();
 
-    if (currentScrollTop > lastScrollTop && isVisible) {
-        navHeader.removeClass('visible').addClass('hidden');
-        isVisible = false;
-    } else if (currentScrollTop < lastScrollTop && !isVisible) {
-        navHeader.removeClass('hidden').addClass('visible');
-        isVisible = true;
+    // If at the top of the page, ensure header is visible
+    if (currentScrollTop === 0) {
+        if (!isVisible) {
+            navHeader.removeClass('hidden').addClass('visible');
+            isVisible = true;
+        }
+    } else {
+        // Scrolling down
+        if (currentScrollTop > lastScrollTop) {
+            if (isVisible) {
+                navHeader.removeClass('visible').addClass('hidden');
+                isVisible = false;
+            }
+        }
+        // Scrolling up
+        else {
+            if (!isVisible) {
+                navHeader.removeClass('hidden').addClass('visible');
+                isVisible = true;
+            }
+        }
     }
 
+    // Update lastScrollTop after processing
     lastScrollTop = currentScrollTop;
-}, 100)); // Adjust the throttle time as needed
-
-
-
-
-
-
+}, 100)); // Adjust throttle time as needed
 
 
 
@@ -236,3 +263,21 @@ document.addEventListener('DOMContentLoaded', function() {
         video.load();
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+const wow = new WOW({
+    boxClass: 'wow',
+    animateClass: 'animate__animated',
+    offset: 0,
+    mobile: true,
+    live: true
+}).init();
