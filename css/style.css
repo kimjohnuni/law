@@ -957,20 +957,6 @@ margin-bottom: 5px;
 padding: 0 10px;
 }
 
-.overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.7);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    border-radius: 8px;
-    z-index: 2; /* Added to ensure overlay appears above image */
-}
-
 /* Info Panel Styles */
 .info-panel-wrapper {
     grid-column: 1 / -1;
@@ -1031,6 +1017,20 @@ line-height: 1.6;
 margin: 0;
 }
 
+.partner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    border-radius: 8px;
+    z-index: 2; /* Added to ensure overlay appears above image */
+}
+
 .close-button {
 position: absolute;
 top: 15px;
@@ -1061,19 +1061,7 @@ transform: translate(-50%, -50%) rotate(45deg);
 transform: translate(-50%, -50%) rotate(-45deg);
 }
 
-.overlay {
-position: absolute;
-top: 0;
-left: 0;
-right: 0;
-bottom: 0;
-background: rgba(255, 255, 255, 0.7);
-opacity: 0;
-transition: opacity 0.3s ease;
-pointer-events: none;
-border-radius: 8px;
-z-index: 2; /* Added to ensure overlay appears above image */
-}
+
 
 .custom-partner-item.selected {
 border-color: #bb9f52;
