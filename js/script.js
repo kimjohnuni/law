@@ -129,6 +129,9 @@ $(window).scroll(throttle(function() {
 
 
 /*PARTNERS PAGE ACCORDION*/
+function toggleInfo(id) {
+    event.preventDefault(); // Prevent default behavior
+    event.stopPropagation(); // Stop event bubbling
 let currentInfoPanelId = null;
 let scrollPosition = 0;
 
