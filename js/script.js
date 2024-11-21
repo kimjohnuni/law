@@ -121,8 +121,14 @@ $(window).scroll(throttle(function() {
 
 
 
-/*PARTNERS PAGE ACCORDION*/
 
+
+
+
+
+
+
+/*PARTNERS PAGE ACCORDION*/
 let currentInfoPanelId = null;
 
 // Toggle info panel visibility
@@ -148,43 +154,36 @@ function toggleInfo(id) {
     clickedPanel.classList.add('active');
     currentInfoPanelId = id;
 
-    // Add touch event handler to prevent panel closing when scrolling inside it
-    clickedPanel.addEventListener('touchmove', (e) => {
-        e.stopPropagation();
-    }, { passive: true });
+    // Add touch event handlers
+    clickedPanel.style.touchAction = 'pan-y';
 
-    // Prevent clicks inside the panel from closing it
-    clickedPanel.addEventListener('click', (e) => {
+    const touchHandler = (e) => {
         e.stopPropagation();
-    });
+    };
 
-    // Dim all other cards
+    clickedPanel.addEventListener('touchmove', touchHandler, { passive: false });
+    clickedPanel.addEventListener('touchstart', touchHandler, { passive: false });
+
+    // Rest of your existing toggleInfo code remains the same
     allCards.forEach(card => {
         if (card !== clickedCard) {
             card.classList.add('dimmed');
         }
     });
 
-    // Insert info panel after the clicked card's row
     const cardRect = clickedCard.getBoundingClientRect();
     const containerRect = profileCards.getBoundingClientRect();
     const cardsPerRow = Math.floor(containerRect.width / cardRect.width);
-
-    // Calculate the index to insert the info panel
     const cardIndex = Array.from(profileCards.children).indexOf(clickedCard);
     const rowIndex = Math.floor(cardIndex / cardsPerRow);
-
-    // Calculate insert index for positioning
     const insertIndex = (rowIndex + 1) * cardsPerRow;
 
-    // Position the info panel correctly in the grid
     if (insertIndex < profileCards.children.length) {
         profileCards.insertBefore(clickedPanel, profileCards.children[insertIndex]);
     } else {
         profileCards.appendChild(clickedPanel);
     }
 
-    // Smooth scroll to make the info panel visible
     setTimeout(() => {
         clickedPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }, 0);
@@ -193,30 +192,25 @@ function toggleInfo(id) {
 // Close the info panel
 function closeInfo(id) {
     const panel = document.getElementById(`info-${id}`);
-
     if (panel) {
+        panel.style.touchAction = 'auto';
         panel.classList.remove('active');
         currentInfoPanelId = null;
 
-        // Remove dimming effect from all cards
         const allCards = document.querySelectorAll('.profile-card');
         allCards.forEach(card => card.classList.remove('dimmed'));
-
-        // Move the panel back to its default position
         document.querySelector('.container').appendChild(panel);
-
-        // Remove the event listeners
-        panel.removeEventListener('touchmove', (e) => e.stopPropagation());
-        panel.removeEventListener('click', (e) => e.stopPropagation());
     }
 }
 
-// Reposition info panel on window resize
+// Keep your existing resize event listener
 window.addEventListener('resize', () => {
     if (currentInfoPanelId !== null) {
         toggleInfo(currentInfoPanelId);
     }
 });
+
+
 
 
 
