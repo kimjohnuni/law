@@ -958,11 +958,11 @@ color: #777777;
 .info-panel.active {
 display: block;
 -webkit-overflow-scrolling: touch;
-    overflow-y: auto;
     overscroll-behavior: contain;
     touch-action: pan-y;
-    position: relative;
-    z-index: 100;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
 }
 
 .info-panel.active * {
