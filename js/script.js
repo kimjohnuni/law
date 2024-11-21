@@ -154,21 +154,6 @@ function toggleInfo(id) {
     clickedPanel.classList.add('active');
     currentInfoPanelId = id;
 
-    // Add these touch event handlers
-    const preventScroll = (e) => {
-        // Only prevent propagation for scroll and touch events
-        if (e.type === 'touchmove' || e.type === 'scroll') {
-            e.stopPropagation();
-        }
-    };
-
-    clickedPanel.addEventListener('touchstart', preventScroll, { passive: true });
-    clickedPanel.addEventListener('touchmove', preventScroll, { passive: true });
-    clickedPanel.addEventListener('scroll', preventScroll);
-
-    // Store the event handler reference
-    clickedPanel.preventScrollHandler = preventScroll;
-
     // Dim all other cards
     allCards.forEach(card => {
         if (card !== clickedCard) {
@@ -181,14 +166,11 @@ function toggleInfo(id) {
     const containerRect = profileCards.getBoundingClientRect();
     const cardsPerRow = Math.floor(containerRect.width / cardRect.width);
 
-    // Calculate the index to insert the info panel
     const cardIndex = Array.from(profileCards.children).indexOf(clickedCard);
     const rowIndex = Math.floor(cardIndex / cardsPerRow);
 
-    // Calculate insert index for positioning
     const insertIndex = (rowIndex + 1) * cardsPerRow;
 
-    // Position the info panel correctly in the grid
     if (insertIndex < profileCards.children.length) {
         profileCards.insertBefore(clickedPanel, profileCards.children[insertIndex]);
     } else {
@@ -199,6 +181,9 @@ function toggleInfo(id) {
     setTimeout(() => {
         clickedPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }, 0);
+
+    // Prevent scroll from closing the info panel
+    preventScrollClose(clickedPanel);
 }
 
 // Close the info panel
@@ -206,14 +191,6 @@ function closeInfo(id) {
     const panel = document.getElementById(`info-${id}`);
 
     if (panel) {
-        // Remove event listeners using the stored handler reference
-        if (panel.preventScrollHandler) {
-            panel.removeEventListener('touchstart', panel.preventScrollHandler);
-            panel.removeEventListener('touchmove', panel.preventScrollHandler);
-            panel.removeEventListener('scroll', panel.preventScrollHandler);
-            delete panel.preventScrollHandler;
-        }
-
         panel.classList.remove('active');
         currentInfoPanelId = null;
 
@@ -226,12 +203,32 @@ function closeInfo(id) {
     }
 }
 
+// Prevent the info panel from closing on scroll
+function preventScrollClose(panel) {
+    let isTouchingPanel = false;
+
+    panel.addEventListener('touchstart', () => {
+        isTouchingPanel = true;
+    });
+
+    panel.addEventListener('touchend', () => {
+        setTimeout(() => (isTouchingPanel = false), 300);
+    });
+
+    document.addEventListener('scroll', () => {
+        if (!isTouchingPanel && currentInfoPanelId !== null) {
+            closeInfo(currentInfoPanelId);
+        }
+    }, { passive: true });
+}
+
 // Reposition info panel on window resize
 window.addEventListener('resize', () => {
     if (currentInfoPanelId !== null) {
         toggleInfo(currentInfoPanelId);
     }
 });
+
 
 
 
