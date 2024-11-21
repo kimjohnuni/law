@@ -867,123 +867,217 @@ margin-top:30px;
 
 /* PARTNERS*/
 
-.partners-container {
+.custom-partner-wrapper {
 max-width: 1200px;
 margin: 0 auto;
 padding: 50px 50px 100px 50px;
+font-family: "Noto Sans KR", sans-serif;
 }
 
-.profile-cards {
-  position: relative;
-      z-index: 1;
-
-
+.custom-partner-grid {
 display: grid;
 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 gap: 20px;
+position: relative;
+row-gap: 20px; /* Explicitly set row gap */
 }
 
-.profile-card {
+.custom-partner-item {
 position: relative;
 cursor: pointer;
-transition: opacity 0.3s ease, filter 0.3s ease;
+transition: all 0.3s ease;
+border: 1px solid #777;
+border-radius: 8px;
+display: flex;
+flex-direction: column;
+padding: 10px;
+box-sizing: border-box;
 }
 
-.profile-card:hover {
-opacity: 0.9;
+.custom-partner-item:hover {
+border-color: #bb9f52;
 }
 
-.profile-card.dimmed {
+.custom-partner-item.dimmed {
 filter: brightness(0.6);
 transition: filter 0.3s ease;
 }
 
-.profile-image {
+.custom-partner-img-wrapper {
+position: relative;
+overflow: hidden;
+padding: 10px;
+box-sizing: border-box;
 width: 100%;
 aspect-ratio: 3/4;
-object-fit: cover;
-background: #f0f0f0;
 }
 
-.profile-overlay {
+.custom-partner-img {
 position: absolute;
-bottom: 0;
+top: 0;
 left: 0;
-right: 0;
-padding: 20px;
-background: linear-gradient(to top, rgba(40,40,40,0.8), transparent);
-color: white;
-}
-
-.profile-name {
-  font-family: "Noto Sans KR", sans-serif;
-font-size: 1.2rem;
-font-weight: bold;
-margin: 0 0 5px 0;
-}
-
-.profile-title {
-  font-family: "Noto Sans KR", sans-serif;
-font-size: 1rem;
-margin: 0;
-opacity: 0.9;
-}
-
-.profile-subtitle {
-  font-family: "Noto Sans KR", sans-serif;
-  font-size: 0.8rem;
-}
-
-.info-panel {
-display: none;
-grid-column: 1 / -1;
-background: white;
-padding: 30px;
-margin-top: 20px;
 width: 100%;
-box-sizing: border-box;
-position: relative;
-border: 0.5px solid #bb9f52;
-border-radius: 5px;
-color: #777777;
+height: 100%;
+object-fit: cover;
+transition: transform 0.3s ease;
 }
 
-.info-panel h2 {
-  font-family: "Noto Sans KR", sans-serif;
-color: #777777;
+.custom-partner-item:hover .custom-partner-img {
+transform: scale(1.1);
 }
 
-.info-panel p {
-  font-family: "Noto Sans KR", sans-serif;
-
-color: #777777;
+.custom-partner-title {
+font-family: "Noto Sans KR", sans-serif;
+font-size: 18px;
+font-weight: bold;
+margin: 10px 0 0 0;
+padding: 0 10px;
+color: #777;
+transition: color 0.3s ease;
 }
 
-.info-panel.active {
-display: block;
--webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-}
-
-
-
-
-
-.close-button {
-position: absolute;
-right: 10px;
-top: 10px;
-background: none;
-border: none;
-font-size: 1.5rem;
-cursor: pointer;
-padding: 0;
-line-height: 1;
+.custom-partner-item:hover .custom-partner-title {
 color: #bb9f52;
 }
 
-.close-button:hover {
-opacity: 0.8;
+.custom-partner-subtitle {
+font-family: "Noto Sans KR", sans-serif;
+font-size: 16px;
+color: #666;
+margin: 0;
+padding: 0 10px;
+}
+
+.custom-partner-detail {
+font-family: "Noto Sans KR", sans-serif;
+font-size: 14px;
+color: #888;
+margin-top: 15px;
+margin-bottom: 5px;
+padding: 0 10px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    border-radius: 8px;
+    z-index: 2; /* Added to ensure overlay appears above image */
+}
+
+/* Info Panel Styles */
+.info-panel-wrapper {
+    grid-column: 1 / -1;
+    overflow: visible;  /* Change from hidden to visible */
+    height: auto;      /* Change from 0 to auto */
+    transition: height 0.3s ease-in-out;
+    position: relative;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+
+.info-panel {
+    background: #fff;
+    border: 1px solid #bb9f52;
+    border-radius: 8px;
+    padding: 20px;
+    position: relative;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    z-index: 10;      /* Add z-index to ensure panel appears above other elements */
+}
+
+.info-panel.active {
+opacity: 1;
+transform: translateY(0);
+}
+
+.info-panel-arrow {
+position: absolute;
+top: -10px;
+width: 20px;
+height: 20px;
+background: #fff;
+border-left: 1px solid #bb9f52;
+border-top: 1px solid #bb9f52;
+transform: rotate(45deg);
+transition: left 0.3s ease;
+}
+
+.info-panel h2 {
+color: #bb9f52;
+margin: 0 0 5px 0;
+font-size: 24px;
+}
+
+.info-panel .position-title {
+color: #777777;
+font-size: 18px;
+margin: 0 0 15px 0;
+}
+
+.info-panel p {
+color: #777777;
+line-height: 1.6;
+margin: 0;
+}
+
+.close-button {
+position: absolute;
+top: 15px;
+right: 15px;
+width: 30px;
+height: 30px;
+border: none;
+background: none;
+cursor: pointer;
+}
+
+.close-button::before,
+.close-button::after {
+content: '';
+position: absolute;
+width: 20px;
+height: 2px;
+background-color: #bb9f52;
+top: 50%;
+left: 50%;
+}
+
+.close-button::before {
+transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close-button::after {
+transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.overlay {
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: rgba(255, 255, 255, 0.7);
+opacity: 0;
+transition: opacity 0.3s ease;
+pointer-events: none;
+border-radius: 8px;
+z-index: 2; /* Added to ensure overlay appears above image */
+}
+
+.custom-partner-item.selected {
+border-color: #bb9f52;
+z-index: 1;
 }
 
 
@@ -1298,11 +1392,17 @@ font-weight:500;
         font-size: 2em;
     }
 
+    /*PARTNERS*/
+    .custom-partner-wrapper {
+        padding: 30px 30px 60px 30px;
+    }
+
     .angle-bracket {
         font-size: 2rem;
         margin-right: 10px;
         margin-left: 10px;
     }
+
 
     /* Achievement Section */
     .achievement-accordion .accordion-button {
@@ -1394,6 +1494,94 @@ font-weight:500;
         font-size: 40px;
         top: -2px;
     }
+
+
+/*PARTNERS*/
+.custom-partner-wrapper {
+    padding: 20px 20px 40px 20px;
+}
+
+.custom-partner-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 15px;
+    padding: 15px;
+    height: 200px;
+}
+
+.custom-partner-img-wrapper {
+    grid-row: 1 / span 3;
+    height: 100%;
+    aspect-ratio: unset;
+    padding: 0;
+}
+
+.custom-partner-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  z-index: 1; /* Added to ensure image stays below overlay */
+}
+
+.custom-partner-title {
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+}
+
+.custom-partner-subtitle {
+    padding: 0;
+    margin-top: -40px;
+    line-height: 1;
+}
+
+.custom-partner-detail {
+    padding: 0;
+    margin-top: auto;
+    margin-bottom: 0;
+}
+
+.info-panel {
+   margin-bottom: 20px; /* Reduce bottom margin */
+}
+
+.info-panel-wrapper {
+   margin-bottom: 0; /* Remove any additional spacing */
+}
+.custom-partner-item {
+       display: grid;
+       grid-template-columns: 120px 1fr;
+       grid-template-rows: auto auto 1fr; /* Added explicit row template */
+       gap: 15px;
+       padding: 15px;
+       height: 200px;
+   }
+   .custom-partner-title {
+    padding: 0;
+    margin: 0;
+    line-height: 1.2;
+    align-self: start; /* Align to start of grid cell */
+}
+.custom-partner-subtitle {
+    padding: 0;
+    margin: 0; /* Remove negative margin */
+    line-height: 1.2;
+    align-self: start; /* Align to start of grid cell */
+}
+
+.custom-partner-detail {
+    padding: 0;
+    margin-top: auto;
+    margin-bottom: 0;
+    align-self: end; /* Keep at bottom */
+}
+
+
+
 
     /* Rest of your existing 576px media query styles */
     .kor-nav-text a {
