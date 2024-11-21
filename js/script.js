@@ -130,15 +130,9 @@ $(window).scroll(throttle(function() {
 
 /*PARTNERS PAGE ACCORDION*/
 let currentInfoPanelId = null;
+let scrollPosition = 0;
 
-// Add this function to detect mobile devices
-function isMobileDevice() {
-    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
-}
-
-// Toggle info panel visibility
 function toggleInfo(id) {
-    const panels = document.querySelectorAll('.info-panel');
     const clickedPanel = document.getElementById(`info-${id}`);
     const profileCards = document.querySelector('.profile-cards');
     const clickedCard = document.querySelector(`[onclick="toggleInfo(${id})"]`);
@@ -155,73 +149,61 @@ function toggleInfo(id) {
         closeInfo(currentInfoPanelId);
     }
 
+    // Store current scroll position
+    scrollPosition = window.scrollY;
+
     // Open the clicked panel
     clickedPanel.classList.add('active');
-
-    // Add mobile-specific class if on mobile device
-    if (isMobileDevice()) {
-        clickedPanel.classList.add('mobile-view');
-        document.body.style.overflow = 'hidden';
-    }
-
     currentInfoPanelId = id;
 
-    // Dim all other cards
+    // Enable scrolling within panel only
+    clickedPanel.style.overflow = 'auto';
+    clickedPanel.style.maxHeight = '80vh';
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollPosition}px`;
+    document.body.style.width = '100%';
+
+    // Rest of your existing code remains the same
     allCards.forEach(card => {
         if (card !== clickedCard) {
             card.classList.add('dimmed');
         }
     });
 
-    // Only do grid positioning if not on mobile
-    if (!isMobileDevice()) {
-        const cardRect = clickedCard.getBoundingClientRect();
-        const containerRect = profileCards.getBoundingClientRect();
-        const cardsPerRow = Math.floor(containerRect.width / cardRect.width);
-        const cardIndex = Array.from(profileCards.children).indexOf(clickedCard);
-        const rowIndex = Math.floor(cardIndex / cardsPerRow);
-        const insertIndex = (rowIndex + 1) * cardsPerRow;
+    // Your existing positioning code
+    const cardRect = clickedCard.getBoundingClientRect();
+    const containerRect = profileCards.getBoundingClientRect();
+    const cardsPerRow = Math.floor(containerRect.width / cardRect.width);
+    const cardIndex = Array.from(profileCards.children).indexOf(clickedCard);
+    const rowIndex = Math.floor(cardIndex / cardsPerRow);
+    const insertIndex = (rowIndex + 1) * cardsPerRow;
 
-        if (insertIndex < profileCards.children.length) {
-            profileCards.insertBefore(clickedPanel, profileCards.children[insertIndex]);
-        } else {
-            profileCards.appendChild(clickedPanel);
-        }
-
-        setTimeout(() => {
-            clickedPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, 0);
+    if (insertIndex < profileCards.children.length) {
+        profileCards.insertBefore(clickedPanel, profileCards.children[insertIndex]);
+    } else {
+        profileCards.appendChild(clickedPanel);
     }
 }
 
-// Close the info panel
 function closeInfo(id) {
     const panel = document.getElementById(`info-${id}`);
 
     if (panel) {
+        // Restore scrolling
+        document.body.style.position = '';
+        document.body.style.width = '';
+        document.body.style.top = '';
+        window.scrollTo(0, scrollPosition);
+
         panel.classList.remove('active');
-        panel.classList.remove('mobile-view');
         currentInfoPanelId = null;
 
-        if (isMobileDevice()) {
-            document.body.style.overflow = '';
-        }
-
-        // Remove dimming effect from all cards
         const allCards = document.querySelectorAll('.profile-card');
         allCards.forEach(card => card.classList.remove('dimmed'));
 
-        // Move the panel back to its default position
         document.querySelector('.container').appendChild(panel);
     }
 }
-
-// Reposition info panel on window resize
-window.addEventListener('resize', () => {
-    if (currentInfoPanelId !== null && !isMobileDevice()) {
-        toggleInfo(currentInfoPanelId);
-    }
-});
 
 
 
