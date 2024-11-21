@@ -124,18 +124,6 @@ $(window).scroll(throttle(function() {
 /*PARTNERS PAGE ACCORDION*/
 
 let currentInfoPanelId = null;
-let isScrolling = false;
-let scrollTimeout;
-
-// Add a scroll event listener
-window.addEventListener('scroll', () => {
-    clearTimeout(scrollTimeout);
-    isScrolling = true;
-
-    scrollTimeout = setTimeout(() => {
-        isScrolling = false;
-    }, 100);
-}, { passive: true });
 
 // Toggle info panel visibility
 function toggleInfo(id) {
@@ -157,13 +145,23 @@ function toggleInfo(id) {
     }
 
     // Open the clicked panel
-    clickedPanel.classList.add('active'); // Ensure this class does not conflict with Bootstrap's 'active'
+    clickedPanel.classList.add('active');
     currentInfoPanelId = id;
+
+    // Add touch event handler to prevent panel closing when scrolling inside it
+    clickedPanel.addEventListener('touchmove', (e) => {
+        e.stopPropagation();
+    }, { passive: true });
+
+    // Prevent clicks inside the panel from closing it
+    clickedPanel.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
 
     // Dim all other cards
     allCards.forEach(card => {
         if (card !== clickedCard) {
-            card.classList.add('dimmed'); // Ensure this class does not conflict with Bootstrap's styles
+            card.classList.add('dimmed');
         }
     });
 
@@ -194,15 +192,10 @@ function toggleInfo(id) {
 
 // Close the info panel
 function closeInfo(id) {
-    // If the closure is triggered by scrolling, prevent it
-    if (isScrolling) {
-        return;
-    }
-
     const panel = document.getElementById(`info-${id}`);
 
     if (panel) {
-        panel.classList.remove('active'); // Ensure this does not conflict with Bootstrap's 'active'
+        panel.classList.remove('active');
         currentInfoPanelId = null;
 
         // Remove dimming effect from all cards
@@ -211,6 +204,10 @@ function closeInfo(id) {
 
         // Move the panel back to its default position
         document.querySelector('.container').appendChild(panel);
+
+        // Remove the event listeners
+        panel.removeEventListener('touchmove', (e) => e.stopPropagation());
+        panel.removeEventListener('click', (e) => e.stopPropagation());
     }
 }
 
