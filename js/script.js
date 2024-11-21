@@ -131,95 +131,82 @@ $(window).scroll(throttle(function() {
 /*PARTNERS PAGE ACCORDION*/
 let currentInfoPanelId = null;
 
-// Add these debug variables at the top
-let debugLastEvent = '';
-let debugLastTarget = '';
-
 // Toggle info panel visibility
 function toggleInfo(id) {
-    console.log('Toggle called with id:', id);
     const panels = document.querySelectorAll('.info-panel');
     const clickedPanel = document.getElementById(`info-${id}`);
     const profileCards = document.querySelector('.profile-cards');
     const clickedCard = document.querySelector(`[onclick="toggleInfo(${id})"]`);
     const allCards = document.querySelectorAll('.profile-card');
 
-    // Debug logging
-    document.addEventListener('touchstart', (e) => {
-        debugLastEvent = 'touchstart';
-        debugLastTarget = e.target;
-        console.log('Touch Start on:', e.target);
-    }, true);
-
-    document.addEventListener('touchmove', (e) => {
-        debugLastEvent = 'touchmove';
-        debugLastTarget = e.target;
-        console.log('Touch Move on:', e.target);
-    }, true);
-
-    document.addEventListener('touchend', (e) => {
-        debugLastEvent = 'touchend';
-        debugLastTarget = e.target;
-        console.log('Touch End on:', e.target);
-    }, true);
-
-    document.addEventListener('scroll', (e) => {
-        debugLastEvent = 'scroll';
-        debugLastTarget = e.target;
-        console.log('Scroll on:', e.target);
-    }, true);
-
-    // Your existing code continues here...
+    // If clicking the same card, close the panel and reset
     if (currentInfoPanelId === id) {
         closeInfo(id);
         return;
     }
 
+    // Close any open panel
     if (currentInfoPanelId !== null) {
         closeInfo(currentInfoPanelId);
     }
 
-    clickedPanel.classList.add('active');
+    // Open the clicked panel
+    clickedPanel.classList.add('active'); // Ensure this class does not conflict with Bootstrap's 'active'
     currentInfoPanelId = id;
 
-    // Add this to prevent any touch events from bubbling up
-    clickedPanel.addEventListener('touchstart', (e) => {
-        console.log('Panel touch start');
-        e.stopPropagation();
-    }, { passive: false });
+    // Add this one new line to prevent touch events from closing the panel
+    clickedPanel.ontouchmove = (e) => e.stopPropagation();
 
-    clickedPanel.addEventListener('touchmove', (e) => {
-        console.log('Panel touch move');
-        e.stopPropagation();
-    }, { passive: false });
+    // Dim all other cards
+    allCards.forEach(card => {
+        if (card !== clickedCard) {
+            card.classList.add('dimmed'); // Ensure this class does not conflict with Bootstrap's styles
+        }
+    });
 
-    clickedPanel.addEventListener('touchend', (e) => {
-        console.log('Panel touch end');
-        e.stopPropagation();
-    }, { passive: false });
+    // Insert info panel after the clicked card's row
+    const cardRect = clickedCard.getBoundingClientRect();
+    const containerRect = profileCards.getBoundingClientRect();
+    const cardsPerRow = Math.floor(containerRect.width / cardRect.width);
 
-    // Rest of your existing code...
+    // Calculate the index to insert the info panel
+    const cardIndex = Array.from(profileCards.children).indexOf(clickedCard);
+    const rowIndex = Math.floor(cardIndex / cardsPerRow);
+
+    // Calculate insert index for positioning
+    const insertIndex = (rowIndex + 1) * cardsPerRow;
+
+    // Position the info panel correctly in the grid
+    if (insertIndex < profileCards.children.length) {
+        profileCards.insertBefore(clickedPanel, profileCards.children[insertIndex]);
+    } else {
+        profileCards.appendChild(clickedPanel);
+    }
+
+    // Smooth scroll to make the info panel visible
+    setTimeout(() => {
+        clickedPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 0);
 }
 
-// Modify the closeInfo function to log why it's being called
+// Close the info panel
 function closeInfo(id) {
-    console.log('Close Info called with id:', id);
-    console.log('Last event that triggered close:', debugLastEvent);
-    console.log('Last target that triggered close:', debugLastTarget);
-
     const panel = document.getElementById(`info-${id}`);
+
     if (panel) {
-        panel.classList.remove('active');
+        panel.classList.remove('active'); // Ensure this does not conflict with Bootstrap's 'active'
         currentInfoPanelId = null;
 
+        // Remove dimming effect from all cards
         const allCards = document.querySelectorAll('.profile-card');
         allCards.forEach(card => card.classList.remove('dimmed'));
 
+        // Move the panel back to its default position
         document.querySelector('.container').appendChild(panel);
     }
 }
 
-// Keep your existing resize event listener
+// Reposition info panel on window resize
 window.addEventListener('resize', () => {
     if (currentInfoPanelId !== null) {
         toggleInfo(currentInfoPanelId);
