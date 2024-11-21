@@ -133,6 +133,9 @@ let currentInfoPanelId = null;
 
 // Toggle info panel visibility
 function toggleInfo(id) {
+    // Prevent default behavior that causes page jump
+    event.preventDefault();
+
     const panels = document.querySelectorAll('.info-panel');
     const clickedPanel = document.getElementById(`info-${id}`);
     const profileCards = document.querySelector('.profile-cards');
@@ -154,78 +157,30 @@ function toggleInfo(id) {
     clickedPanel.classList.add('active');
     currentInfoPanelId = id;
 
-    // Fix the body scroll position when panel is open
-    document.body.style.position = 'fixed';
-    document.body.style.width = '100%';
-    document.body.style.top = `-${window.scrollY}px`;
-
-    // Enable smooth scrolling within the panel
-    clickedPanel.style.overflow = 'auto';
-    clickedPanel.style.webkitOverflowScrolling = 'touch';
-    clickedPanel.style.position = 'relative';
-
-    // Dim all other cards
+    // Rest of your existing code remains the same
     allCards.forEach(card => {
         if (card !== clickedCard) {
             card.classList.add('dimmed');
         }
     });
 
-    // Insert info panel after the clicked card's row
     const cardRect = clickedCard.getBoundingClientRect();
     const containerRect = profileCards.getBoundingClientRect();
     const cardsPerRow = Math.floor(containerRect.width / cardRect.width);
-
-    // Calculate the index to insert the info panel
     const cardIndex = Array.from(profileCards.children).indexOf(clickedCard);
     const rowIndex = Math.floor(cardIndex / cardsPerRow);
-
-    // Calculate insert index for positioning
     const insertIndex = (rowIndex + 1) * cardsPerRow;
 
-    // Position the info panel correctly in the grid
     if (insertIndex < profileCards.children.length) {
         profileCards.insertBefore(clickedPanel, profileCards.children[insertIndex]);
     } else {
         profileCards.appendChild(clickedPanel);
     }
 
-    // Smooth scroll to make the info panel visible
     setTimeout(() => {
         clickedPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }, 0);
 }
-
-// Close the info panel
-function closeInfo(id) {
-    const panel = document.getElementById(`info-${id}`);
-
-    if (panel) {
-        // Restore body scroll position
-        const scrollY = document.body.style.top;
-        document.body.style.position = '';
-        document.body.style.width = '';
-        document.body.style.top = '';
-        window.scrollTo(0, parseInt(scrollY || '0') * -1);
-
-        panel.classList.remove('active');
-        currentInfoPanelId = null;
-
-        // Remove dimming effect from all cards
-        const allCards = document.querySelectorAll('.profile-card');
-        allCards.forEach(card => card.classList.remove('dimmed'));
-
-        // Move the panel back to its default position
-        document.querySelector('.container').appendChild(panel);
-    }
-}
-
-// Reposition info panel on window resize
-window.addEventListener('resize', () => {
-    if (currentInfoPanelId !== null) {
-        toggleInfo(currentInfoPanelId);
-    }
-});
 
 
 
