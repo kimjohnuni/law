@@ -130,6 +130,8 @@ $(window).scroll(throttle(function() {
 
 /*PARTNERS PAGE ACCORDION*/
 let currentInfoPanelId = null;
+let touchStartY = null;
+let isScrollingInfo = false;
 
 // Toggle info panel visibility
 function toggleInfo(id) {
@@ -151,62 +153,96 @@ function toggleInfo(id) {
     }
 
     // Open the clicked panel
-    clickedPanel.classList.add('active'); // Ensure this class does not conflict with Bootstrap's 'active'
+    clickedPanel.classList.add('active');
     currentInfoPanelId = id;
 
-    // Add this one new line to prevent touch events from closing the panel
-    clickedPanel.ontouchmove = (e) => e.stopPropagation();
+    // Add touch event handlers
+    const handleTouchStart = (e) => {
+        touchStartY = e.touches[0].clientY;
+        isScrollingInfo = true;
+        e.stopPropagation();
+    };
 
-    // Dim all other cards
+    const handleTouchMove = (e) => {
+        if (isScrollingInfo) {
+            e.stopPropagation();
+        }
+    };
+
+    const handleTouchEnd = () => {
+        touchStartY = null;
+        isScrollingInfo = false;
+    };
+
+    // Remove any existing listeners first
+    clickedPanel.removeEventListener('touchstart', handleTouchStart);
+    clickedPanel.removeEventListener('touchmove', handleTouchMove);
+    clickedPanel.removeEventListener('touchend', handleTouchEnd);
+
+    // Add new listeners
+    clickedPanel.addEventListener('touchstart', handleTouchStart, { passive: false });
+    clickedPanel.addEventListener('touchmove', handleTouchMove, { passive: false });
+    clickedPanel.addEventListener('touchend', handleTouchEnd, { passive: false });
+
+    // Store handlers for removal
+    clickedPanel.touchHandlers = {
+        start: handleTouchStart,
+        move: handleTouchMove,
+        end: handleTouchEnd
+    };
+
+    // Rest of your existing code
     allCards.forEach(card => {
         if (card !== clickedCard) {
-            card.classList.add('dimmed'); // Ensure this class does not conflict with Bootstrap's styles
+            card.classList.add('dimmed');
         }
     });
 
-    // Insert info panel after the clicked card's row
     const cardRect = clickedCard.getBoundingClientRect();
     const containerRect = profileCards.getBoundingClientRect();
     const cardsPerRow = Math.floor(containerRect.width / cardRect.width);
-
-    // Calculate the index to insert the info panel
     const cardIndex = Array.from(profileCards.children).indexOf(clickedCard);
     const rowIndex = Math.floor(cardIndex / cardsPerRow);
-
-    // Calculate insert index for positioning
     const insertIndex = (rowIndex + 1) * cardsPerRow;
 
-    // Position the info panel correctly in the grid
     if (insertIndex < profileCards.children.length) {
         profileCards.insertBefore(clickedPanel, profileCards.children[insertIndex]);
     } else {
         profileCards.appendChild(clickedPanel);
     }
 
-    // Smooth scroll to make the info panel visible
     setTimeout(() => {
         clickedPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }, 0);
 }
 
-// Close the info panel
+// Modify the closeInfo function
 function closeInfo(id) {
-    const panel = document.getElementById(`info-${id}`);
+    if (isScrollingInfo) {
+        return; // Don't close if we're scrolling the info panel
+    }
 
+    const panel = document.getElementById(`info-${id}`);
     if (panel) {
-        panel.classList.remove('active'); // Ensure this does not conflict with Bootstrap's 'active'
+        // Remove touch event listeners
+        if (panel.touchHandlers) {
+            panel.removeEventListener('touchstart', panel.touchHandlers.start);
+            panel.removeEventListener('touchmove', panel.touchHandlers.move);
+            panel.removeEventListener('touchend', panel.touchHandlers.end);
+            delete panel.touchHandlers;
+        }
+
+        panel.classList.remove('active');
         currentInfoPanelId = null;
 
-        // Remove dimming effect from all cards
         const allCards = document.querySelectorAll('.profile-card');
         allCards.forEach(card => card.classList.remove('dimmed'));
 
-        // Move the panel back to its default position
         document.querySelector('.container').appendChild(panel);
     }
 }
 
-// Reposition info panel on window resize
+// Keep your existing resize event listener
 window.addEventListener('resize', () => {
     if (currentInfoPanelId !== null) {
         toggleInfo(currentInfoPanelId);
