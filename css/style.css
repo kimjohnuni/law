@@ -8,6 +8,7 @@
 }
 
 body, html {
+  background-color:yellow;
   width: 100%;
   height: 100%;
   margin: 0px;
@@ -956,6 +957,8 @@ color: #777777;
 
 .info-panel.active {
 display: block;
+overscroll-behavior: contain;
+    touch-action: pan-y;
 }
 
 .close-button {
