@@ -155,13 +155,19 @@ function toggleInfo(id) {
     currentInfoPanelId = id;
 
     // Add these touch event handlers
-    const preventClose = (e) => {
-        e.stopPropagation();
+    const preventScroll = (e) => {
+        // Only prevent propagation for scroll and touch events
+        if (e.type === 'touchmove' || e.type === 'scroll') {
+            e.stopPropagation();
+        }
     };
 
-    clickedPanel.addEventListener('touchstart', preventClose);
-    clickedPanel.addEventListener('touchmove', preventClose);
-    clickedPanel.addEventListener('scroll', preventClose);
+    clickedPanel.addEventListener('touchstart', preventScroll, { passive: true });
+    clickedPanel.addEventListener('touchmove', preventScroll, { passive: true });
+    clickedPanel.addEventListener('scroll', preventScroll);
+
+    // Store the event handler reference
+    clickedPanel.preventScrollHandler = preventScroll;
 
     // Dim all other cards
     allCards.forEach(card => {
@@ -200,10 +206,13 @@ function closeInfo(id) {
     const panel = document.getElementById(`info-${id}`);
 
     if (panel) {
-        // Remove event listeners
-        panel.removeEventListener('touchstart', preventClose);
-        panel.removeEventListener('touchmove', preventClose);
-        panel.removeEventListener('scroll', preventClose);
+        // Remove event listeners using the stored handler reference
+        if (panel.preventScrollHandler) {
+            panel.removeEventListener('touchstart', panel.preventScrollHandler);
+            panel.removeEventListener('touchmove', panel.preventScrollHandler);
+            panel.removeEventListener('scroll', panel.preventScrollHandler);
+            delete panel.preventScrollHandler;
+        }
 
         panel.classList.remove('active');
         currentInfoPanelId = null;
