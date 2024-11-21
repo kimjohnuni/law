@@ -129,84 +129,199 @@ $(window).scroll(throttle(function() {
 
 
 /*PARTNERS PAGE ACCORDION*/
-function toggleInfo(id) {
-    event.preventDefault(); // Prevent default behavior
-    event.stopPropagation(); // Stop event bubbling
-let currentInfoPanelId = null;
-let scrollPosition = 0;
+document.addEventListener('DOMContentLoaded', function() {
+let activePanel = null;
+let selectedItem = null;
+const grid = document.querySelector('.custom-partner-grid');
+const items = document.querySelectorAll('.custom-partner-item');
 
-function toggleInfo(id) {
-    const clickedPanel = document.getElementById(`info-${id}`);
-    const profileCards = document.querySelector('.profile-cards');
-    const clickedCard = document.querySelector(`[onclick="toggleInfo(${id})"]`);
-    const allCards = document.querySelectorAll('.profile-card');
-
-    // If clicking the same card, close the panel and reset
-    if (currentInfoPanelId === id) {
-        closeInfo(id);
-        return;
-    }
-
-    // Close any open panel
-    if (currentInfoPanelId !== null) {
-        closeInfo(currentInfoPanelId);
-    }
-
-    // Store current scroll position
-    scrollPosition = window.scrollY;
-
-    // Open the clicked panel
-    clickedPanel.classList.add('active');
-    currentInfoPanelId = id;
-
-    // Enable scrolling within panel only
-    clickedPanel.style.overflow = 'auto';
-    clickedPanel.style.maxHeight = '80vh';
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${scrollPosition}px`;
-    document.body.style.width = '100%';
-
-    // Rest of your existing code remains the same
-    allCards.forEach(card => {
-        if (card !== clickedCard) {
-            card.classList.add('dimmed');
-        }
-    });
-
-    // Your existing positioning code
-    const cardRect = clickedCard.getBoundingClientRect();
-    const containerRect = profileCards.getBoundingClientRect();
-    const cardsPerRow = Math.floor(containerRect.width / cardRect.width);
-    const cardIndex = Array.from(profileCards.children).indexOf(clickedCard);
-    const rowIndex = Math.floor(cardIndex / cardsPerRow);
-    const insertIndex = (rowIndex + 1) * cardsPerRow;
-
-    if (insertIndex < profileCards.children.length) {
-        profileCards.insertBefore(clickedPanel, profileCards.children[insertIndex]);
-    } else {
-        profileCards.appendChild(clickedPanel);
-    }
+function scrollToPanel(panel) {
+  const panelRect = panel.getBoundingClientRect();
+  const offset = panelRect.top + window.scrollY - (window.innerHeight - panelRect.height) / 2;
+  window.scrollTo({
+      top: offset,
+      behavior: 'smooth'
+  });
 }
 
-function closeInfo(id) {
-    const panel = document.getElementById(`info-${id}`);
+function createInfoPanel(content, targetItem) {
+  const template = document.getElementById('info-panel-template');
+  const panel = template.content.cloneNode(true);
+  const wrapper = panel.querySelector('.info-panel-wrapper');
+  const infoPanel = panel.querySelector('.info-panel');
+  const arrow = panel.querySelector('.info-panel-arrow');
+  const closeButton = panel.querySelector('.close-button');
 
-    if (panel) {
-        // Restore scrolling
-        document.body.style.position = '';
-        document.body.style.width = '';
-        document.body.style.top = '';
-        window.scrollTo(0, scrollPosition);
+  panel.querySelector('.info-panel-content').innerHTML = content;
 
-        panel.classList.remove('active');
-        currentInfoPanelId = null;
+  const itemRect = targetItem.getBoundingClientRect();
+  const gridRect = grid.getBoundingClientRect();
+  const arrowLeft = itemRect.left - gridRect.left + (itemRect.width / 2) - 10;
+  arrow.style.left = `${arrowLeft}px`;
 
-        const allCards = document.querySelectorAll('.profile-card');
-        allCards.forEach(card => card.classList.remove('dimmed'));
-
-        document.querySelector('.container').appendChild(panel);
-    }
+  return { wrapper, infoPanel, closeButton };
 }
+
+function closePanel() {
+  if (activePanel) {
+      const wrapper = activePanel;
+      const panel = wrapper.querySelector('.info-panel');
+
+      panel.style.transform = 'translateY(-20px)';
+      panel.style.opacity = '0';
+
+      setTimeout(() => {
+          wrapper.style.height = '0';
+          setTimeout(() => {
+              wrapper.remove();
+              activePanel = null;
+          }, 300);
+      }, 100);
+  }
+
+  if (selectedItem) {
+      selectedItem.classList.remove('selected');
+      selectedItem = null;
+  }
+
+  items.forEach(item => {
+      item.querySelector('.overlay').style.opacity = '0';
+  });
+}
+
+items.forEach(item => {
+  item.addEventListener('click', function() {
+      const partnerId = this.dataset.partner;
+
+      // Calculate insertion point
+      const itemIndex = Array.from(items).indexOf(this);
+      const itemsPerRow = Math.floor(grid.offsetWidth / this.offsetWidth);
+      const insertAfterIndex = Math.floor(itemIndex / itemsPerRow) * itemsPerRow + itemsPerRow - 1;
+      const referenceNode = items[insertAfterIndex] || items[items.length - 1];
+
+      let content;
+      switch(partnerId) {
+          case "1":
+            content = `
+            <h2>Partner Name</h2>
+            <div class="position-title">Position Title</div>
+            <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+            `;
+              break;
+          case "2":
+          content = `
+          <h2>Partner Name</h2>
+          <div class="position-title">Position Title</div>
+          <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+          `;
+            break;
+          case "3":
+          content = `
+          <h2>Partner Name</h2>
+          <div class="position-title">Position Title</div>
+          <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+          `;
+            break;
+          case "4":
+          content = `
+          <h2>Partner Name</h2>
+          <div class="position-title">Position Title</div>
+          <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+          `;
+            break;
+          case "5":
+          content = `
+          <h2>Partner Name</h2>
+          <div class="position-title">Position Title</div>
+          <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+          `;
+            break;
+          case "6":
+          content = `
+          <h2>Partner Name</h2>
+          <div class="position-title">Position Title</div>
+          <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+          `;
+            break;
+          case "7":
+          content = `
+          <h2>Partner Name</h2>
+          <div class="position-title">Position Title</div>
+          <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+          `;
+            break;
+          case "8":
+          content = `
+          <h2>Partner Name</h2>
+          <div class="position-title">Position Title</div>
+          <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+          `;
+            break;
+          default:
+              content = `<p>Information not available</p>`;
+      }
+
+      if (selectedItem === this) {
+          closePanel();
+          return;
+      }
+
+      if (activePanel) {
+          const panel = activePanel.querySelector('.info-panel');
+          const contentDiv = panel.querySelector('.info-panel-content');
+          const arrow = panel.querySelector('.info-panel-arrow');
+
+          // Update content and arrow position
+          contentDiv.innerHTML = content;
+          const itemRect = this.getBoundingClientRect();
+          const gridRect = grid.getBoundingClientRect();
+          const arrowLeft = itemRect.left - gridRect.left + (itemRect.width / 2) - 10;
+          arrow.style.left = `${arrowLeft}px`;
+
+          // Move panel if needed
+          if (activePanel.previousElementSibling !== referenceNode) {
+              activePanel.remove();
+              referenceNode.insertAdjacentElement('afterend', activePanel);
+              scrollToPanel(activePanel);
+          }
+
+          // Update selected state
+          selectedItem.classList.remove('selected');
+          this.classList.add('selected');
+          selectedItem = this;
+
+          // Update overlays
+          items.forEach(otherItem => {
+              otherItem.querySelector('.overlay').style.opacity =
+                  otherItem !== this ? '1' : '0';
+          });
+
+          return;
+      }
+
+      // Create new panel
+      const { wrapper, infoPanel, closeButton } = createInfoPanel(content, this);
+      referenceNode.insertAdjacentElement('afterend', wrapper);
+      activePanel = wrapper;
+
+      this.classList.add('selected');
+      selectedItem = this;
+
+      items.forEach(otherItem => {
+          otherItem.querySelector('.overlay').style.opacity =
+              otherItem !== this ? '1' : '0';
+      });
+
+      requestAnimationFrame(() => {
+          wrapper.style.height = `${infoPanel.offsetHeight}px`;
+          infoPanel.classList.add('active');
+          scrollToPanel(wrapper);
+      });
+
+      closeButton.addEventListener('click', closePanel);
+  });
+});
+});
 
 
 
