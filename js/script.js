@@ -185,7 +185,7 @@ function closePanel() {
   }
 
   items.forEach(item => {
-      item.querySelector('.overlay').style.opacity = '0';
+      item.querySelector('.partner-overlay').style.opacity = '0';
   });
 }
 
@@ -203,9 +203,9 @@ items.forEach(item => {
       switch(partnerId) {
           case "1":
             content = `
-            <h2>Partner Name</h2>
-            <div class="position-title">Position Title</div>
-            <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+            <h2>주대진</h2>
+            <div class="position-title">대표변호사</div>
+            <p>주대진 변호사(사법시험 28회, 연수원 18기)는 오랜 변호사 경력을 바탕으로 법무법인(유한) 에스제이파트너스에서 다루는 각종 사건에 대한 조언과 지원을 아끼지 않고 있습니다.</p>
             `;
               break;
           case "2":
@@ -257,6 +257,111 @@ items.forEach(item => {
           <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
           `;
             break;
+            case "9":
+            content = `
+            <h2>Partner Name</h2>
+            <div class="position-title">Position Title</div>
+            <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+            `;
+              break;
+              case "10":
+              content = `
+              <h2>Partner Name</h2>
+              <div class="position-title">Position Title</div>
+              <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+              `;
+                break;
+                case "11":
+                content = `
+                <h2>Partner Name</h2>
+                <div class="position-title">Position Title</div>
+                <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+                `;
+                  break;
+                  case "12":
+                  content = `
+                  <h2>Partner Name</h2>
+                  <div class="position-title">Position Title</div>
+                  <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+                  `;
+                    break;
+                    case "13":
+                    content = `
+                    <h2>Partner Name</h2>
+                    <div class="position-title">Position Title</div>
+                    <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+                    `;
+                      break;
+                      case "14":
+                      content = `
+                      <h2>Partner Name</h2>
+                      <div class="position-title">Position Title</div>
+                      <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+                      `;
+                        break;
+                        case "15":
+                        content = `
+                        <h2>Partner Name</h2>
+                        <div class="position-title">Position Title</div>
+                        <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+                        `;
+                          break;
+                          case "16":
+                          content = `
+                          <h2>Partner Name</h2>
+                          <div class="position-title">Position Title</div>
+                          <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+                          `;
+                            break;
+                            case "17":
+                            content = `
+                            <h2>Partner Name</h2>
+                            <div class="position-title">Position Title</div>
+                            <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+                            `;
+                              break;
+                              case "18":
+                              content = `
+                              <h2>Partner Name</h2>
+                              <div class="position-title">Position Title</div>
+                              <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+                              `;
+                                break;
+                                case "19":
+                                content = `
+                                <h2>Partner Name</h2>
+                                <div class="position-title">Position Title</div>
+                                <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+                                `;
+                                  break;
+                                  case "20":
+                                  content = `
+                                  <h2>Partner Name</h2>
+                                  <div class="position-title">Position Title</div>
+                                  <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+                                  `;
+                                    break;
+                                    case "21":
+                                    content = `
+                                    <h2>Partner Name</h2>
+                                    <div class="position-title">Position Title</div>
+                                    <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+                                    `;
+                                      break;
+                                      case "22":
+                                      content = `
+                                      <h2>Partner Name</h2>
+                                      <div class="position-title">Position Title</div>
+                                      <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+                                      `;
+                                        break;
+                                        case "23":
+                                        content = `
+                                        <h2>Partner Name</h2>
+                                        <div class="position-title">Position Title</div>
+                                        <p>Detailed description about the partner. This can be multiple sentences long and will maintain proper spacing and line height for readability.</p>
+                                        `;
+                                          break;
           default:
               content = `<p>Information not available</p>`;
       }
@@ -292,7 +397,7 @@ items.forEach(item => {
 
           // Update overlays
           items.forEach(otherItem => {
-              otherItem.querySelector('.overlay').style.opacity =
+              otherItem.querySelector('.partner-overlay').style.opacity =
                   otherItem !== this ? '1' : '0';
           });
 
@@ -308,7 +413,7 @@ items.forEach(item => {
       selectedItem = this;
 
       items.forEach(otherItem => {
-          otherItem.querySelector('.overlay').style.opacity =
+          otherItem.querySelector('.partner-overlay').style.opacity =
               otherItem !== this ? '1' : '0';
       });
 
