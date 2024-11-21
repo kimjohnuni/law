@@ -130,8 +130,7 @@ $(window).scroll(throttle(function() {
 
 /*PARTNERS PAGE ACCORDION*/
 let currentInfoPanelId = null;
-let touchStartY = 0;
-let isTouching = false;
+let isScrollingPanel = false;
 
 // Toggle info panel visibility
 function toggleInfo(id) {
@@ -156,48 +155,44 @@ function toggleInfo(id) {
     clickedPanel.classList.add('active');
     currentInfoPanelId = id;
 
-    // Add touch event handlers for the panel
+    // Add touch handlers specifically for scrolling
     const handleTouchStart = (e) => {
-        touchStartY = e.touches[0].clientY;
-        isTouching = true;
+        isScrollingPanel = true;
         e.stopPropagation();
     };
 
-    const handleTouchMove = (e) => {
-        if (isTouching) {
+    const handleTouchEnd = () => {
+        isScrollingPanel = false;
+    };
+
+    // Prevent any parent elements from receiving the scroll event
+    const handleScroll = (e) => {
+        if (isScrollingPanel) {
             e.stopPropagation();
         }
     };
 
-    const handleTouchEnd = (e) => {
-        isTouching = false;
-        e.stopPropagation();
-    };
-
-    // Add the touch event listeners
     clickedPanel.addEventListener('touchstart', handleTouchStart, { passive: false });
-    clickedPanel.addEventListener('touchmove', handleTouchMove, { passive: false });
     clickedPanel.addEventListener('touchend', handleTouchEnd, { passive: false });
+    clickedPanel.addEventListener('scroll', handleScroll, { passive: false });
 
-    // Store the event listeners on the panel element for later removal
-    clickedPanel.touchHandlers = {
-        start: handleTouchStart,
-        move: handleTouchMove,
-        end: handleTouchEnd
+    // Store handlers for removal later
+    clickedPanel.eventHandlers = {
+        touchStart: handleTouchStart,
+        touchEnd: handleTouchEnd,
+        scroll: handleScroll
     };
 
-    // Dim all other cards
+    // Rest of your existing code remains the same
     allCards.forEach(card => {
         if (card !== clickedCard) {
             card.classList.add('dimmed');
         }
     });
 
-    // Insert info panel after the clicked card's row
     const cardRect = clickedCard.getBoundingClientRect();
     const containerRect = profileCards.getBoundingClientRect();
     const cardsPerRow = Math.floor(containerRect.width / cardRect.width);
-
     const cardIndex = Array.from(profileCards.children).indexOf(clickedCard);
     const rowIndex = Math.floor(cardIndex / cardsPerRow);
     const insertIndex = (rowIndex + 1) * cardsPerRow;
@@ -217,13 +212,13 @@ function toggleInfo(id) {
 function closeInfo(id) {
     const panel = document.getElementById(`info-${id}`);
 
-    if (panel) {
-        // Remove touch event listeners if they exist
-        if (panel.touchHandlers) {
-            panel.removeEventListener('touchstart', panel.touchHandlers.start);
-            panel.removeEventListener('touchmove', panel.touchHandlers.move);
-            panel.removeEventListener('touchend', panel.touchHandlers.end);
-            delete panel.touchHandlers;
+    if (panel && !isScrollingPanel) {  // Only close if we're not scrolling
+        // Remove event listeners
+        if (panel.eventHandlers) {
+            panel.removeEventListener('touchstart', panel.eventHandlers.touchStart);
+            panel.removeEventListener('touchend', panel.eventHandlers.touchEnd);
+            panel.removeEventListener('scroll', panel.eventHandlers.scroll);
+            delete panel.eventHandlers;
         }
 
         panel.classList.remove('active');
