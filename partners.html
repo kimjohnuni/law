@@ -1,571 +1,281 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>SJP Law</title>
+  <link rel="stylesheet" href="css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/animate.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 
-    <title>Partner Flex Boxes</title>
-    <style>
-      .custom-partner-wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 50px 50px 100px 50px;
-    font-family: "Noto Sans KR", sans-serif;
-}
-
-.custom-partner-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    position: relative;
-    row-gap: 20px; /* Explicitly set row gap */
-}
-
-.custom-partner-item {
-    position: relative;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 1px solid #777;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    box-sizing: border-box;
-}
-
-.custom-partner-item:hover {
-    border-color: #bb9f52;
-}
-
-.custom-partner-item.dimmed {
-    filter: brightness(0.6);
-    transition: filter 0.3s ease;
-}
-
-.custom-partner-img-wrapper {
-    position: relative;
-    overflow: hidden;
-    padding: 10px;
-    box-sizing: border-box;
-    width: 100%;
-    aspect-ratio: 3/4;
-}
-
-.custom-partner-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.custom-partner-item:hover .custom-partner-img {
-    transform: scale(1.1);
-}
-
-.custom-partner-title {
-    font-family: "Noto Sans KR", sans-serif;
-    font-size: 18px;
-    font-weight: bold;
-    margin: 10px 0 0 0;
-    padding: 0 10px;
-    color: #777;
-    transition: color 0.3s ease;
-}
-
-.custom-partner-item:hover .custom-partner-title {
-    color: #bb9f52;
-}
-
-.custom-partner-subtitle {
-    font-family: "Noto Sans KR", sans-serif;
-    font-size: 16px;
-    color: #666;
-    margin: 0;
-    padding: 0 10px;
-}
-
-.custom-partner-detail {
-    font-family: "Noto Sans KR", sans-serif;
-    font-size: 14px;
-    color: #888;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    padding: 0 10px;
-}
-
-/* Info Panel Styles */
-.info-panel-wrapper {
-    grid-column: 1 / -1;
-    overflow: hidden;
-    height: 0;
-    transition: height 0.3s ease-in-out;
-    position: relative;
-    padding-bottom: 20px; /* Added padding-bottom */
-}
-
-.info-panel {
-    background: #fff;
-    border: 1px solid #bb9f52;
-    border-radius: 8px;
-    padding: 20px;
-    position: relative;
-    opacity: 0;
-    transform: translateY(-20px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    margin-top: 20px;
-    margin-bottom: 50px; /* Added fixed margin-bottom */
-}
-
-.info-panel.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.info-panel-arrow {
-    position: absolute;
-    top: -10px;
-    width: 20px;
-    height: 20px;
-    background: #fff;
-    border-left: 1px solid #bb9f52;
-    border-top: 1px solid #bb9f52;
-    transform: rotate(45deg);
-    transition: left 0.3s ease;
-}
-
-.close-button {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 30px;
-    height: 30px;
-    border: none;
-    background: none;
-    cursor: pointer;
-}
-
-.close-button::before,
-.close-button::after {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 2px;
-    background-color: #bb9f52;
-    top: 50%;
-    left: 50%;
-}
-
-.close-button::before {
-    transform: translate(-50%, -50%) rotate(45deg);
-}
-
-.close-button::after {
-    transform: translate(-50%, -50%) rotate(-45deg);
-}
-
-.overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.7);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    border-radius: 8px;
-    z-index: 2; /* Added to ensure overlay appears above image */
-}
-
-.custom-partner-item.selected {
-    border-color: #bb9f52;
-    z-index: 1;
-}
-
-@media (max-width: 768px) {
-    .custom-partner-wrapper {
-        padding: 30px 30px 60px 30px;
-    }
-}
-
-@media (max-width: 576px) {
-    .custom-partner-wrapper {
-        padding: 20px 20px 40px 20px;
-    }
-
-    .custom-partner-item {
-        display: grid;
-        grid-template-columns: 120px 1fr;
-        gap: 15px;
-        padding: 15px;
-        height: 200px;
-    }
-
-    .custom-partner-img-wrapper {
-        grid-row: 1 / span 3;
-        height: 100%;
-        aspect-ratio: unset;
-        padding: 0;
-    }
-
-    .custom-partner-img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-      z-index: 1; /* Added to ensure image stays below overlay */
-  }
-
-    .custom-partner-title {
-        padding: 0;
-        margin: 0;
-        line-height: 1;
-    }
-
-    .custom-partner-subtitle {
-        padding: 0;
-        margin-top: -40px;
-        line-height: 1;
-    }
-
-    .custom-partner-detail {
-        padding: 0;
-        margin-top: auto;
-        margin-bottom: 0;
-    }
-
-    .info-panel {
-       margin-bottom: 20px; /* Reduce bottom margin */
-   }
-
-   .info-panel-wrapper {
-       margin-bottom: 0; /* Remove any additional spacing */
-   }
-   .custom-partner-item {
-           display: grid;
-           grid-template-columns: 120px 1fr;
-           grid-template-rows: auto auto 1fr; /* Added explicit row template */
-           gap: 15px;
-           padding: 15px;
-           height: 200px;
-       }
-       .custom-partner-title {
-        padding: 0;
-        margin: 0;
-        line-height: 1.2;
-        align-self: start; /* Align to start of grid cell */
-    }
-    .custom-partner-subtitle {
-        padding: 0;
-        margin: 0; /* Remove negative margin */
-        line-height: 1.2;
-        align-self: start; /* Align to start of grid cell */
-    }
-
-    .custom-partner-detail {
-        padding: 0;
-        margin-top: auto;
-        margin-bottom: 0;
-        align-self: end; /* Keep at bottom */
-    }
-
-}
-    </style>
+  <!-- Favicon links -->
+  <link rel="icon" type="image/png" href="img/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="img/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="img/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.png" />
+  <link rel="manifest" href="img/favicon/site.webmanifest" />
 </head>
+
 <body>
-  <div class="custom-partner-wrapper">
-    <div class="custom-partner-grid">
-        <div class="custom-partner-item" data-partner="1">
-            <div class="overlay"></div>
-            <div class="custom-partner-img-wrapper">
-                <img src="https://via.placeholder.com/180x270" alt="Partner 1" class="custom-partner-img">
-            </div>
-            <div class="custom-partner-title">Partner 1</div>
-            <div class="custom-partner-subtitle">Sub Header 1</div>
-            <div class="custom-partner-detail">Detail Header 1</div>
-        </div>
+    <div class="wrapper">
 
-        <div class="custom-partner-item" data-partner="2">
-            <div class="overlay"></div>
-            <div class="custom-partner-img-wrapper">
-                <img src="https://via.placeholder.com/180x270" alt="Partner 2" class="custom-partner-img">
-            </div>
-            <div class="custom-partner-title">Partner 2</div>
-            <div class="custom-partner-subtitle">Sub Header 2</div>
-            <div class="custom-partner-detail">Detail Header 2</div>
-        </div>
 
-        <div class="custom-partner-item" data-partner="3">
-            <div class="overlay"></div>
-            <div class="custom-partner-img-wrapper">
-                <img src="https://via.placeholder.com/180x270" alt="Partner 3" class="custom-partner-img">
-            </div>
-            <div class="custom-partner-title">Partner 3</div>
-            <div class="custom-partner-subtitle">Sub Header 3</div>
-            <div class="custom-partner-detail">Detail Header 3</div>
-        </div>
+        <div class="nav-header" role="banner">
 
-        <div class="custom-partner-item" data-partner="4">
-            <div class="overlay"></div>
-            <div class="custom-partner-img-wrapper">
-                <img src="https://via.placeholder.com/180x270" alt="Partner 4" class="custom-partner-img">
-            </div>
-            <div class="custom-partner-title">Partner 4</div>
-            <div class="custom-partner-subtitle">Sub Header 4</div>
-            <div class="custom-partner-detail">Detail Header 4</div>
         </div>
+        <div class="main-front">
+        <a href="index.html"><img src='img/brand-logo.png' alt='logo'></a>
+      </div>
 
-        <div class="custom-partner-item" data-partner="5">
-            <div class="overlay"></div>
-            <div class="custom-partner-img-wrapper">
-                <img src="https://via.placeholder.com/180x270" alt="Partner 5" class="custom-partner-img">
-            </div>
-            <div class="custom-partner-title">Partner 5</div>
-            <div class="custom-partner-subtitle">Sub Header 5</div>
-            <div class="custom-partner-detail">Detail Header 5</div>
-        </div>
+      <div id="overlay-nav" class="overlay">
+          <div class="overlay-content">
+              <a href="company.html">
+                  <span class="korean-text">사무소 소개</span>
+                  <span class="english-text">Company</span>
+              </a>
+              <a href="expertise.html">
+                  <span class="korean-text">업무영역</span>
+                  <span class="english-text">Expertise</span>
+              </a>
+              <a href="partners.html">
+                  <span class="korean-text">구성원 소개</span>
+                  <span class="english-text">Partners</span>
+              </a>
+              <a href="achievements.html">
+                  <span class="korean-text">업무 사례</span>
+                  <span class="english-text">Achievements</span>
+              </a>
+          </div>
+      </div>
 
-        <div class="custom-partner-item" data-partner="6">
-            <div class="overlay"></div>
-            <div class="custom-partner-img-wrapper">
-                <img src="https://via.placeholder.com/180x270" alt="Partner 6" class="custom-partner-img">
-            </div>
-            <div class="custom-partner-title">Partner 6</div>
-            <div class="custom-partner-subtitle">Sub Header 6</div>
-            <div class="custom-partner-detail">Detail Header 6</div>
-        </div>
+      <div class="button-container">
+          <button class="menu-btn" onclick="openMenu()">
+              <img src="img/hamburger.png" alt="Menu">
+          </button>
+          <button class="close-btn" onclick="closeMenu()">
+              <img src="img/close.png" alt="Close">
+          </button>
+      </div>
 
-        <div class="custom-partner-item" data-partner="7">
-            <div class="overlay"></div>
-            <div class="custom-partner-img-wrapper">
-                <img src="https://via.placeholder.com/180x270" alt="Partner 7" class="custom-partner-img">
-            </div>
-            <div class="custom-partner-title">Partner 7</div>
-            <div class="custom-partner-subtitle">Sub Header 7</div>
-            <div class="custom-partner-detail">Detail Header 7</div>
-        </div>
 
-        <div class="custom-partner-item" data-partner="8">
-            <div class="overlay"></div>
-            <div class="custom-partner-img-wrapper">
-                <img src="https://via.placeholder.com/180x270" alt="Partner 8" class="custom-partner-img">
-            </div>
-            <div class="custom-partner-title">Partner 8</div>
-            <div class="custom-partner-subtitle">Sub Header 8</div>
-            <div class="custom-partner-detail">Detail Header 8</div>
-        </div>
+
+  <section class="expertise-section-container bg-white text-light p-5 text-left">
+  <div class="container">
+    <div class="d-flex">
+        <div class="expertise-showcase-text col-12 col-md-10">
+        <h1 class="expertise-header display-1 animate__animated animate__fadeInDown wow"> Partners</h1>
+        <h4 class="expertise-sub-header fw-bold animate__animated animate__fadeIn wow" data-wow-duration="1s" data-wow-delay="0.1s">One-stop Service를 지향하는 One-Team</h4>
+        <p class="expertise-text pe-md-5 p-text animate__animated animate__fadeIn wow" data-wow-duration="1s" data-wow-delay="0.2s">
+          에스제이파트너스의 가장 큰 장점은 여러 영역에서 풍부한 경험을 쌓은 변호사들로 구성되어 있다는 것입니다.<br><br>
+          이를 바탕으로 의뢰인의 정확한 니즈 파악에서부터 최고의 법률서비스 제공까지 One-Stop Service가 가능하도록 One-Team으로 협업함으로써, 고객에게 신뢰받는 최고의 서비스를 제공드릴 것을 약속합니다.
+        </p>
+      </div>
+      <div class="col-2">
+      </div>
     </div>
-</div>
-<template id="info-panel-template">
-    <div class="info-panel-wrapper">
-        <div class="info-panel">
-            <div class="info-panel-arrow"></div>
-            <button class="close-button" aria-label="Close"></button>
-            <div class="info-panel-content">
-                <!-- Content will be dynamically inserted here -->
-            </div>
+  </div>
+  </section>
+
+    <div class="container-fluid px-0">
+      <div class="row gx-0 color-block-top"></div>
+      <div class="row gx-0">
+        <div class="col">
+          <img src="img/bg-main/bg_value_visual_partners.avif" alt="" class="expertise-bg w-100 h-100 ">
         </div>
+      </div>
+      <div class="row gx-0  color-block-top"></div>
     </div>
-</template>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-      let activePanel = null;
-      let selectedItem = null;
-      const grid = document.querySelector('.custom-partner-grid');
-      const items = document.querySelectorAll('.custom-partner-item');
 
-      function scrollToPanel(panel) {
-          const panelRect = panel.getBoundingClientRect();
-          const offset = panelRect.top + window.scrollY - (window.innerHeight - panelRect.height) / 2;
-          window.scrollTo({
-              top: offset,
-              behavior: 'smooth'
-          });
-      }
+    <div class="container-fluid bg-white">
+      <div class="icon-header-text text-center">
+        <p class="animate__animated animate__fadeInDown wow" data-wow-duration="1s" data-wow-delay="0.8s">업무영역</p>
+        <h1 class="animate__animated animate__fadeInDown wow" data-wow-duration="1s" data-wow-delay="0.4s">Partners</h1>
+      </div>
+    </div>
 
-      function createInfoPanel(content, targetItem) {
-          const template = document.getElementById('info-panel-template');
-          const panel = template.content.cloneNode(true);
-          const wrapper = panel.querySelector('.info-panel-wrapper');
-          const infoPanel = panel.querySelector('.info-panel');
-          const arrow = panel.querySelector('.info-panel-arrow');
-          const closeButton = panel.querySelector('.close-button');
 
-          panel.querySelector('.info-panel-content').innerHTML = content;
 
-          const itemRect = targetItem.getBoundingClientRect();
-          const gridRect = grid.getBoundingClientRect();
-          const arrowLeft = itemRect.left - gridRect.left + (itemRect.width / 2) - 10;
-          arrow.style.left = `${arrowLeft}px`;
 
-          return { wrapper, infoPanel, closeButton };
-      }
 
-      function closePanel() {
-          if (activePanel) {
-              const wrapper = activePanel;
-              const panel = wrapper.querySelector('.info-panel');
 
-              panel.style.transform = 'translateY(-20px)';
-              panel.style.opacity = '0';
 
-              setTimeout(() => {
-                  wrapper.style.height = '0';
-                  setTimeout(() => {
-                      wrapper.remove();
-                      activePanel = null;
-                  }, 300);
-              }, 100);
-          }
+    <div class="custom-partner-wrapper">
+      <div class="custom-partner-grid">
+          <div class="custom-partner-item" data-partner="1">
+              <div class="overlay"></div>
+              <div class="custom-partner-img-wrapper">
+                  <img src="https://via.placeholder.com/180x270" alt="Partner 1" class="custom-partner-img">
+              </div>
+              <div class="custom-partner-title">Partner 1</div>
+              <div class="custom-partner-subtitle">Sub Header 1</div>
+              <div class="custom-partner-detail">Detail Header 1</div>
+          </div>
 
-          if (selectedItem) {
-              selectedItem.classList.remove('selected');
-              selectedItem = null;
-          }
+          <div class="custom-partner-item" data-partner="2">
+              <div class="overlay"></div>
+              <div class="custom-partner-img-wrapper">
+                  <img src="https://via.placeholder.com/180x270" alt="Partner 2" class="custom-partner-img">
+              </div>
+              <div class="custom-partner-title">Partner 2</div>
+              <div class="custom-partner-subtitle">Sub Header 2</div>
+              <div class="custom-partner-detail">Detail Header 2</div>
+          </div>
 
-          items.forEach(item => {
-              item.querySelector('.overlay').style.opacity = '0';
-          });
-      }
+          <div class="custom-partner-item" data-partner="3">
+              <div class="overlay"></div>
+              <div class="custom-partner-img-wrapper">
+                  <img src="https://via.placeholder.com/180x270" alt="Partner 3" class="custom-partner-img">
+              </div>
+              <div class="custom-partner-title">Partner 3</div>
+              <div class="custom-partner-subtitle">Sub Header 3</div>
+              <div class="custom-partner-detail">Detail Header 3</div>
+          </div>
 
-      items.forEach(item => {
-          item.addEventListener('click', function() {
-              const partnerId = this.dataset.partner;
+          <div class="custom-partner-item" data-partner="4">
+              <div class="overlay"></div>
+              <div class="custom-partner-img-wrapper">
+                  <img src="https://via.placeholder.com/180x270" alt="Partner 4" class="custom-partner-img">
+              </div>
+              <div class="custom-partner-title">Partner 4</div>
+              <div class="custom-partner-subtitle">Sub Header 4</div>
+              <div class="custom-partner-detail">Detail Header 4</div>
+          </div>
 
-              let content;
-              switch(partnerId) {
-                  case "1":
-                      content = `
-                          <h2>Partner 1 Specific Information</h2>
-                          <p>This is the detailed content for Partner 1.</p>
-                          <ul>
-                              <li>Specific detail 1</li>
-                              <li>Specific detail 2</li>
-                          </ul>
-                      `;
-                      break;
-                  case "2":
-                      content = `
-                          <h2>Partner 2 Specific Information</h2>
-                          <p>This is the detailed content for Partner 2.</p>
-                          <ul>
-                              <li>Partner 2 specific detail</li>
-                              <li>More information</li>
-                          </ul>
-                      `;
-                      break;
-                  case "3":
-                      content = `
-                          <h2>Partner 3 Specific Information</h2>
-                          <p>Content specific to Partner 3</p>
-                          <ul>
-                              <li>Partner 3 detail</li>
-                              <li>Additional information</li>
-                          </ul>
-                      `;
-                      break;
-                  case "4":
-                      content = `
-                          <h2>Partner 4 Specific Information</h2>
-                          <p>Content specific to Partner 4</p>
-                          <ul>
-                              <li>Partner 4 detail</li>
-                              <li>More details here</li>
-                          </ul>
-                      `;
-                      break;
-                  case "5":
-                      content = `
-                          <h2>Partner 5 Specific Information</h2>
-                          <p>Content specific to Partner 5</p>
-                          <ul>
-                              <li>Partner 5 specific info</li>
-                              <li>Additional details</li>
-                          </ul>
-                      `;
-                      break;
-                  case "6":
-                      content = `
-                          <h2>Partner 6 Specific Information</h2>
-                          <p>Content specific to Partner 6</p>
-                          <ul>
-                              <li>Partner 6 information</li>
-                              <li>More details</li>
-                          </ul>
-                      `;
-                      break;
-                  case "7":
-                      content = `
-                          <h2>Partner 7 Specific Information</h2>
-                          <p>Content specific to Partner 7</p>
-                          <ul>
-                              <li>Partner 7 specific detail</li>
-                              <li>Additional information</li>
-                          </ul>
-                      `;
-                      break;
-                  case "8":
-                      content = `
-                          <h2>Partner 8 Specific Information</h2>
-                          <p>Content specific to Partner 8</p>
-                          <ul>
-                              <li>Partner 8 detail</li>
-                              <li>More information here</li>
-                          </ul>
-                      `;
-                      break;
-                  default:
-                      content = `<p>Information not available</p>`;
-              }
+          <div class="custom-partner-item" data-partner="5">
+              <div class="overlay"></div>
+              <div class="custom-partner-img-wrapper">
+                  <img src="https://via.placeholder.com/180x270" alt="Partner 5" class="custom-partner-img">
+              </div>
+              <div class="custom-partner-title">Partner 5</div>
+              <div class="custom-partner-subtitle">Sub Header 5</div>
+              <div class="custom-partner-detail">Detail Header 5</div>
+          </div>
 
-              if (selectedItem === this) {
-                  closePanel();
-                  return;
-              }
+          <div class="custom-partner-item" data-partner="6">
+              <div class="overlay"></div>
+              <div class="custom-partner-img-wrapper">
+                  <img src="https://via.placeholder.com/180x270" alt="Partner 6" class="custom-partner-img">
+              </div>
+              <div class="custom-partner-title">Partner 6</div>
+              <div class="custom-partner-subtitle">Sub Header 6</div>
+              <div class="custom-partner-detail">Detail Header 6</div>
+          </div>
 
-              if (activePanel) {
-                  activePanel.remove();
-              }
+          <div class="custom-partner-item" data-partner="7">
+              <div class="overlay"></div>
+              <div class="custom-partner-img-wrapper">
+                  <img src="https://via.placeholder.com/180x270" alt="Partner 7" class="custom-partner-img">
+              </div>
+              <div class="custom-partner-title">Partner 7</div>
+              <div class="custom-partner-subtitle">Sub Header 7</div>
+              <div class="custom-partner-detail">Detail Header 7</div>
+          </div>
 
-              if (selectedItem) {
-                  selectedItem.classList.remove('selected');
-              }
+          <div class="custom-partner-item" data-partner="8">
+              <div class="overlay"></div>
+              <div class="custom-partner-img-wrapper">
+                  <img src="https://via.placeholder.com/180x270" alt="Partner 8" class="custom-partner-img">
+              </div>
+              <div class="custom-partner-title">Partner 8</div>
+              <div class="custom-partner-subtitle">Sub Header 8</div>
+              <div class="custom-partner-detail">Detail Header 8</div>
+          </div>
+      </div>
+  </div>
+  <template id="info-panel-template">
+      <div class="info-panel-wrapper">
+          <div class="info-panel">
+              <div class="info-panel-arrow"></div>
+              <button class="close-button" aria-label="Close"></button>
+              <div class="info-panel-content">
+                  <!-- Content will be dynamically inserted here -->
+              </div>
+          </div>
+      </div>
+  </template>
 
-              this.classList.add('selected');
-              selectedItem = this;
 
-              items.forEach(otherItem => {
-                  otherItem.querySelector('.overlay').style.opacity =
-                      otherItem !== this ? '1' : '0';
-              });
 
-              const { wrapper, infoPanel, closeButton } = createInfoPanel(content, this);
 
-              const itemIndex = Array.from(items).indexOf(this);
-              const itemsPerRow = Math.floor(grid.offsetWidth / this.offsetWidth);
-              const insertAfterIndex = Math.floor(itemIndex / itemsPerRow) * itemsPerRow + itemsPerRow - 1;
-              const referenceNode = items[insertAfterIndex] || items[items.length - 1];
+<div class="container border-bottom border-muted"></div>
 
-              referenceNode.insertAdjacentElement('afterend', wrapper);
-              activePanel = wrapper;
+<div class="container-fluid">
+    <!-- Row with two columns -->
+    <div class="border-container" style="max-height: 300px;">
+      <div class="row" style="min-height: 250px;">
+        <!-- Company Column -->
+        <div class="col-6 d-flex justify-content-center border-end border-muted">
+          <div class="center-content">
+            <a href="expertise.html" class="link-text d-flex align-items-center">
+              <img src="img/buttons/bottom-nav-left.png" class="nav-arrow nav-arrow-left" alt="Left arrow">
+              <div class="text-container">
+                <div class="h6 fw-bold kor-txt">업무영역</div>
+                <div class="pn-link">Expertise</div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <!-- Partners Column -->
+        <div class="col-6 d-flex justify-content-center">
+          <div class="center-content">
+            <a href="achievements.html" class="link-text d-flex align-items-center">
+              <div class="text-container">
+                <div class="h6 fw-bold kor-txt">업무 사례</div>
+                <div class="pn-link">Achievements</div>
+              </div>
+              <img src="img/buttons/bottom-nav-right.png" class="nav-arrow nav-arrow-right" alt="Right arrow">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-              requestAnimationFrame(() => {
-                  wrapper.style.height = `${infoPanel.offsetHeight}px`;
-                  infoPanel.classList.add('active');
-                  scrollToPanel(wrapper);
-              });
 
-              closeButton.addEventListener('click', closePanel);
-          });
-      });
-  });
-    </script>
+
+
+
+  <footer>
+      <div class="container border-top border-muted">
+          <div class="footer-logo">
+              <img src="img/brand-logo-footer-777.png" alt="">
+          </div>
+          <div class="row align-items-end">
+              <!-- Left column -->
+              <div class="col-md-8 text-start text-center text-md-start">
+                  <p class="footer-padding">
+                      <span class="bold">법무법인(유한) 에스제이파트너스 | 사업자등록번호:</span> 397-86-02911<br>
+                      서울 중구 퇴계로 100 7층(회현동2가, 스테이트타워남산)<br>
+                      <span class="bold">대표번호:</span> 02-586-7715&nbsp;&nbsp;<span class="bold">FAX:</span> 02-586-7717&nbsp;&nbsp;<span class="bold">E-MAIL:</span> desk@sjplaw.co.kr<br>
+                      <span class="bold">광고책임변호사:</span> 백종빈
+                  </p>
+              </div>
+
+              <!-- Right column -->
+              <div class="col-md-4 text-center text-md-end mb-3">
+                <p class="mb-0 parent-site-text"><span class="bold">Parent Site:</span></p>
+                <a href="http://www.sjpip.co.kr" class="footer-link">www.sjpip.co.kr</a>
+              </div>
+          </div>
+
+          <!-- Copyright section with border -->
+          <div class="footer text-center col-md-12 copyright border-top border-muted">
+              Copyright ⓒ 2024 법무법인(유한) 에스제이파트너스. All Rights Reserved.
+          </div>
+      </div>
+  </footer>
+     </div>
+
+
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+     <script src="js/bootstrap.bundle.min.js"></script>
+     <script src="js/wow.min.js"></script>
+     <script>new WOW().init();</script>
+     <script src="js/script.js"></script>
 </body>
 </html>
