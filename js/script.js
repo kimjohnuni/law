@@ -130,6 +130,8 @@ $(window).scroll(throttle(function() {
 
 /*PARTNERS PAGE ACCORDION*/
 let currentInfoPanelId = null;
+let touchStartY = 0;
+let isTouching = false;
 
 // Toggle info panel visibility
 function toggleInfo(id) {
@@ -154,26 +156,48 @@ function toggleInfo(id) {
     clickedPanel.classList.add('active');
     currentInfoPanelId = id;
 
-    // Add touch event handlers
-    clickedPanel.style.touchAction = 'pan-y';
-
-    const touchHandler = (e) => {
+    // Add touch event handlers for the panel
+    const handleTouchStart = (e) => {
+        touchStartY = e.touches[0].clientY;
+        isTouching = true;
         e.stopPropagation();
     };
 
-    clickedPanel.addEventListener('touchmove', touchHandler, { passive: false });
-    clickedPanel.addEventListener('touchstart', touchHandler, { passive: false });
+    const handleTouchMove = (e) => {
+        if (isTouching) {
+            e.stopPropagation();
+        }
+    };
 
-    // Rest of your existing toggleInfo code remains the same
+    const handleTouchEnd = (e) => {
+        isTouching = false;
+        e.stopPropagation();
+    };
+
+    // Add the touch event listeners
+    clickedPanel.addEventListener('touchstart', handleTouchStart, { passive: false });
+    clickedPanel.addEventListener('touchmove', handleTouchMove, { passive: false });
+    clickedPanel.addEventListener('touchend', handleTouchEnd, { passive: false });
+
+    // Store the event listeners on the panel element for later removal
+    clickedPanel.touchHandlers = {
+        start: handleTouchStart,
+        move: handleTouchMove,
+        end: handleTouchEnd
+    };
+
+    // Dim all other cards
     allCards.forEach(card => {
         if (card !== clickedCard) {
             card.classList.add('dimmed');
         }
     });
 
+    // Insert info panel after the clicked card's row
     const cardRect = clickedCard.getBoundingClientRect();
     const containerRect = profileCards.getBoundingClientRect();
     const cardsPerRow = Math.floor(containerRect.width / cardRect.width);
+
     const cardIndex = Array.from(profileCards.children).indexOf(clickedCard);
     const rowIndex = Math.floor(cardIndex / cardsPerRow);
     const insertIndex = (rowIndex + 1) * cardsPerRow;
@@ -192,18 +216,27 @@ function toggleInfo(id) {
 // Close the info panel
 function closeInfo(id) {
     const panel = document.getElementById(`info-${id}`);
+
     if (panel) {
-        panel.style.touchAction = 'auto';
+        // Remove touch event listeners if they exist
+        if (panel.touchHandlers) {
+            panel.removeEventListener('touchstart', panel.touchHandlers.start);
+            panel.removeEventListener('touchmove', panel.touchHandlers.move);
+            panel.removeEventListener('touchend', panel.touchHandlers.end);
+            delete panel.touchHandlers;
+        }
+
         panel.classList.remove('active');
         currentInfoPanelId = null;
 
         const allCards = document.querySelectorAll('.profile-card');
         allCards.forEach(card => card.classList.remove('dimmed'));
+
         document.querySelector('.container').appendChild(panel);
     }
 }
 
-// Keep your existing resize event listener
+// Reposition info panel on window resize
 window.addEventListener('resize', () => {
     if (currentInfoPanelId !== null) {
         toggleInfo(currentInfoPanelId);
@@ -220,7 +253,7 @@ window.addEventListener('resize', () => {
 
 
 
-
+/* LANDING PAGE WHITE*/
 
 document.addEventListener('DOMContentLoaded', function() {
     // Check if we're on the index page by looking for the background-video element
