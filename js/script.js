@@ -130,97 +130,85 @@ $(window).scroll(throttle(function() {
 
 /*PARTNERS PAGE ACCORDION*/
 let currentInfoPanelId = null;
-let isScrollingPanel = false;
+
+// Add these debug variables at the top
+let debugLastEvent = '';
+let debugLastTarget = '';
 
 // Toggle info panel visibility
 function toggleInfo(id) {
+    console.log('Toggle called with id:', id);
     const panels = document.querySelectorAll('.info-panel');
     const clickedPanel = document.getElementById(`info-${id}`);
     const profileCards = document.querySelector('.profile-cards');
     const clickedCard = document.querySelector(`[onclick="toggleInfo(${id})"]`);
     const allCards = document.querySelectorAll('.profile-card');
 
-    // If clicking the same card, close the panel and reset
+    // Debug logging
+    document.addEventListener('touchstart', (e) => {
+        debugLastEvent = 'touchstart';
+        debugLastTarget = e.target;
+        console.log('Touch Start on:', e.target);
+    }, true);
+
+    document.addEventListener('touchmove', (e) => {
+        debugLastEvent = 'touchmove';
+        debugLastTarget = e.target;
+        console.log('Touch Move on:', e.target);
+    }, true);
+
+    document.addEventListener('touchend', (e) => {
+        debugLastEvent = 'touchend';
+        debugLastTarget = e.target;
+        console.log('Touch End on:', e.target);
+    }, true);
+
+    document.addEventListener('scroll', (e) => {
+        debugLastEvent = 'scroll';
+        debugLastTarget = e.target;
+        console.log('Scroll on:', e.target);
+    }, true);
+
+    // Your existing code continues here...
     if (currentInfoPanelId === id) {
         closeInfo(id);
         return;
     }
 
-    // Close any open panel
     if (currentInfoPanelId !== null) {
         closeInfo(currentInfoPanelId);
     }
 
-    // Open the clicked panel
     clickedPanel.classList.add('active');
     currentInfoPanelId = id;
 
-    // Add touch handlers specifically for scrolling
-    const handleTouchStart = (e) => {
-        isScrollingPanel = true;
+    // Add this to prevent any touch events from bubbling up
+    clickedPanel.addEventListener('touchstart', (e) => {
+        console.log('Panel touch start');
         e.stopPropagation();
-    };
+    }, { passive: false });
 
-    const handleTouchEnd = () => {
-        isScrollingPanel = false;
-    };
+    clickedPanel.addEventListener('touchmove', (e) => {
+        console.log('Panel touch move');
+        e.stopPropagation();
+    }, { passive: false });
 
-    // Prevent any parent elements from receiving the scroll event
-    const handleScroll = (e) => {
-        if (isScrollingPanel) {
-            e.stopPropagation();
-        }
-    };
+    clickedPanel.addEventListener('touchend', (e) => {
+        console.log('Panel touch end');
+        e.stopPropagation();
+    }, { passive: false });
 
-    clickedPanel.addEventListener('touchstart', handleTouchStart, { passive: false });
-    clickedPanel.addEventListener('touchend', handleTouchEnd, { passive: false });
-    clickedPanel.addEventListener('scroll', handleScroll, { passive: false });
-
-    // Store handlers for removal later
-    clickedPanel.eventHandlers = {
-        touchStart: handleTouchStart,
-        touchEnd: handleTouchEnd,
-        scroll: handleScroll
-    };
-
-    // Rest of your existing code remains the same
-    allCards.forEach(card => {
-        if (card !== clickedCard) {
-            card.classList.add('dimmed');
-        }
-    });
-
-    const cardRect = clickedCard.getBoundingClientRect();
-    const containerRect = profileCards.getBoundingClientRect();
-    const cardsPerRow = Math.floor(containerRect.width / cardRect.width);
-    const cardIndex = Array.from(profileCards.children).indexOf(clickedCard);
-    const rowIndex = Math.floor(cardIndex / cardsPerRow);
-    const insertIndex = (rowIndex + 1) * cardsPerRow;
-
-    if (insertIndex < profileCards.children.length) {
-        profileCards.insertBefore(clickedPanel, profileCards.children[insertIndex]);
-    } else {
-        profileCards.appendChild(clickedPanel);
-    }
-
-    setTimeout(() => {
-        clickedPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 0);
+    // Rest of your existing code...
 }
 
-// Close the info panel
+// Modify the closeInfo function to log why it's being called
 function closeInfo(id) {
+    console.log('Close Info called with id:', id);
+    console.log('Last event that triggered close:', debugLastEvent);
+    console.log('Last target that triggered close:', debugLastTarget);
+
     const panel = document.getElementById(`info-${id}`);
-
-    if (panel && !isScrollingPanel) {  // Only close if we're not scrolling
-        // Remove event listeners
-        if (panel.eventHandlers) {
-            panel.removeEventListener('touchstart', panel.eventHandlers.touchStart);
-            panel.removeEventListener('touchend', panel.eventHandlers.touchEnd);
-            panel.removeEventListener('scroll', panel.eventHandlers.scroll);
-            delete panel.eventHandlers;
-        }
-
+    if (panel) {
         panel.classList.remove('active');
         currentInfoPanelId = null;
 
@@ -231,7 +219,7 @@ function closeInfo(id) {
     }
 }
 
-// Reposition info panel on window resize
+// Keep your existing resize event listener
 window.addEventListener('resize', () => {
     if (currentInfoPanelId !== null) {
         toggleInfo(currentInfoPanelId);
