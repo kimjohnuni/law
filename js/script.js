@@ -130,49 +130,99 @@ $(window).scroll(throttle(function() {
 
 /*PARTNERS PAGE ACCORDION*/
 let currentInfoPanelId = null;
-let touchStartY = null;
-let initialTouchTime = null;
 
+// Toggle info panel visibility
 function toggleInfo(id) {
+    const panels = document.querySelectorAll('.info-panel');
     const clickedPanel = document.getElementById(`info-${id}`);
+    const profileCards = document.querySelector('.profile-cards');
+    const clickedCard = document.querySelector(`[onclick="toggleInfo(${id})"]`);
+    const allCards = document.querySelectorAll('.profile-card');
 
-    // Previous toggle logic remains the same...
+    // If clicking the same card, close the panel and reset
+    if (currentInfoPanelId === id) {
+        closeInfo(id);
+        return;
+    }
 
-    // Add these new touch handlers
-    const handleTouchStart = (e) => {
-        touchStartY = e.touches[0].clientY;
-        initialTouchTime = Date.now();
+    // Close any open panel
+    if (currentInfoPanelId !== null) {
+        closeInfo(currentInfoPanelId);
+    }
+
+    // Open the clicked panel
+    clickedPanel.classList.add('active');
+    currentInfoPanelId = id;
+
+    // Add these touch event handlers
+    const preventClose = (e) => {
         e.stopPropagation();
     };
 
-    const handleTouchMove = (e) => {
-        if (!touchStartY) return;
+    clickedPanel.addEventListener('touchstart', preventClose);
+    clickedPanel.addEventListener('touchmove', preventClose);
+    clickedPanel.addEventListener('scroll', preventClose);
 
-        const touchDelta = Math.abs(e.touches[0].clientY - touchStartY);
-        const timeElapsed = Date.now() - initialTouchTime;
-
-        // Only prevent default if it's a deliberate scroll attempt
-        if (touchDelta > 10 && timeElapsed > 100) {
-            e.stopPropagation();
+    // Dim all other cards
+    allCards.forEach(card => {
+        if (card !== clickedCard) {
+            card.classList.add('dimmed');
         }
-    };
+    });
 
-    const handleTouchEnd = () => {
-        touchStartY = null;
-        initialTouchTime = null;
-    };
+    // Insert info panel after the clicked card's row
+    const cardRect = clickedCard.getBoundingClientRect();
+    const containerRect = profileCards.getBoundingClientRect();
+    const cardsPerRow = Math.floor(containerRect.width / cardRect.width);
 
-    clickedPanel.addEventListener('touchstart', handleTouchStart, { passive: false });
-    clickedPanel.addEventListener('touchmove', handleTouchMove, { passive: false });
-    clickedPanel.addEventListener('touchend', handleTouchEnd);
+    // Calculate the index to insert the info panel
+    const cardIndex = Array.from(profileCards.children).indexOf(clickedCard);
+    const rowIndex = Math.floor(cardIndex / cardsPerRow);
 
-    // Store handlers for cleanup
-    clickedPanel._touchHandlers = {
-        start: handleTouchStart,
-        move: handleTouchMove,
-        end: handleTouchEnd
-    };
+    // Calculate insert index for positioning
+    const insertIndex = (rowIndex + 1) * cardsPerRow;
+
+    // Position the info panel correctly in the grid
+    if (insertIndex < profileCards.children.length) {
+        profileCards.insertBefore(clickedPanel, profileCards.children[insertIndex]);
+    } else {
+        profileCards.appendChild(clickedPanel);
+    }
+
+    // Smooth scroll to make the info panel visible
+    setTimeout(() => {
+        clickedPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 0);
 }
+
+// Close the info panel
+function closeInfo(id) {
+    const panel = document.getElementById(`info-${id}`);
+
+    if (panel) {
+        // Remove event listeners
+        panel.removeEventListener('touchstart', preventClose);
+        panel.removeEventListener('touchmove', preventClose);
+        panel.removeEventListener('scroll', preventClose);
+
+        panel.classList.remove('active');
+        currentInfoPanelId = null;
+
+        // Remove dimming effect from all cards
+        const allCards = document.querySelectorAll('.profile-card');
+        allCards.forEach(card => card.classList.remove('dimmed'));
+
+        // Move the panel back to its default position
+        document.querySelector('.container').appendChild(panel);
+    }
+}
+
+// Reposition info panel on window resize
+window.addEventListener('resize', () => {
+    if (currentInfoPanelId !== null) {
+        toggleInfo(currentInfoPanelId);
+    }
+});
 
 
 
