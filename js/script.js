@@ -10,7 +10,7 @@
 
 
 
-
+/*MENU*/
 
 function openMenu() {
     const overlay = document.getElementById("overlay-nav");
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-
+/*NAV HEADER ACTION*/
 
 var lastScrollTop = 0;
 var navHeader = $(".nav-header");
@@ -121,9 +121,21 @@ $(window).scroll(throttle(function() {
 
 
 
-
+/*PARTNERS PAGE ACCORDION*/
 
 let currentInfoPanelId = null;
+let isScrolling = false;
+let scrollTimeout;
+
+// Add a scroll event listener
+window.addEventListener('scroll', () => {
+    clearTimeout(scrollTimeout);
+    isScrolling = true;
+
+    scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+    }, 100);
+}, { passive: true });
 
 // Toggle info panel visibility
 function toggleInfo(id) {
@@ -182,6 +194,11 @@ function toggleInfo(id) {
 
 // Close the info panel
 function closeInfo(id) {
+    // If the closure is triggered by scrolling, prevent it
+    if (isScrolling) {
+        return;
+    }
+
     const panel = document.getElementById(`info-${id}`);
 
     if (panel) {
@@ -203,7 +220,6 @@ window.addEventListener('resize', () => {
         toggleInfo(currentInfoPanelId);
     }
 });
-
 
 
 
