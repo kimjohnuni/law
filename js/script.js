@@ -130,7 +130,6 @@ $(window).scroll(throttle(function() {
 
 /*PARTNERS PAGE ACCORDION*/
 let currentInfoPanelId = null;
-let isInteractingWithPanel = false;
 
 // Toggle info panel visibility
 function toggleInfo(id) {
@@ -155,16 +154,15 @@ function toggleInfo(id) {
     clickedPanel.classList.add('active');
     currentInfoPanelId = id;
 
-    // Add interaction tracking
-    clickedPanel.addEventListener('touchstart', () => {
-        isInteractingWithPanel = true;
-    });
+    // Fix the body scroll position when panel is open
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    document.body.style.top = `-${window.scrollY}px`;
 
-    clickedPanel.addEventListener('touchend', () => {
-        setTimeout(() => {
-            isInteractingWithPanel = false;
-        }, 100);
-    });
+    // Enable smooth scrolling within the panel
+    clickedPanel.style.overflow = 'auto';
+    clickedPanel.style.webkitOverflowScrolling = 'touch';
+    clickedPanel.style.position = 'relative';
 
     // Dim all other cards
     allCards.forEach(card => {
@@ -200,14 +198,16 @@ function toggleInfo(id) {
 
 // Close the info panel
 function closeInfo(id) {
-    // Don't close if user is interacting with the panel
-    if (isInteractingWithPanel) {
-        return;
-    }
-
     const panel = document.getElementById(`info-${id}`);
 
     if (panel) {
+        // Restore body scroll position
+        const scrollY = document.body.style.top;
+        document.body.style.position = '';
+        document.body.style.width = '';
+        document.body.style.top = '';
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+
         panel.classList.remove('active');
         currentInfoPanelId = null;
 
