@@ -248,7 +248,34 @@
    .info-panel-wrapper {
        margin-bottom: 0; /* Remove any additional spacing */
    }
-}
+   .custom-partner-item {
+           display: grid;
+           grid-template-columns: 120px 1fr;
+           grid-template-rows: auto auto 1fr; /* Added explicit row template */
+           gap: 15px;
+           padding: 15px;
+           height: 200px;
+       }
+       .custom-partner-title {
+        padding: 0;
+        margin: 0;
+        line-height: 1.2;
+        align-self: start; /* Align to start of grid cell */
+    }
+    .custom-partner-subtitle {
+        padding: 0;
+        margin: 0; /* Remove negative margin */
+        line-height: 1.2;
+        align-self: start; /* Align to start of grid cell */
+    }
+
+    .custom-partner-detail {
+        padding: 0;
+        margin-top: auto;
+        margin-bottom: 0;
+        align-self: end; /* Keep at bottom */
+    }
+
 }
     </style>
 </head>
