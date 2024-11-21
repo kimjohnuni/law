@@ -8,7 +8,7 @@
 }
 
 body, html {
-  background-color: gray;
+  background-color: pink;
   width: 100%;
   height: 100%;
   margin: 0px;
@@ -874,6 +874,10 @@ padding: 50px 50px 100px 50px;
 }
 
 .profile-cards {
+  position: relative;
+      z-index: 1;
+
+
 display: grid;
 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 gap: 20px;
@@ -959,7 +963,11 @@ color: #777777;
 display: block;
 -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
-    touch-action: pan-y;
+    max-height: 80vh; /* Limit height to prevent full-screen scrolling */
+    overflow-y: auto;
+    z-index: 1000;
+    background: white; /* Ensure background is solid */
+    position: relative;
 }
 
 
