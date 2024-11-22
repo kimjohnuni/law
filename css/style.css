@@ -3,22 +3,22 @@
   color: black;
   &:before, &:after {
     box-sizing: border-box;
-    overflow-x: hidden;
   }
 }
 
 body, html {
-  background-color: white;
-  width: 100%;
-  height: 100%;
-  margin: 0px;
-  padding: 0px;
-  overflow-x: hidden;
-  }
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: visible; /* Change from hidden to visible */
+}
 
-  .wrapper  {
-    overflow-x: hidden;
-    position: absolute;
+.wrapper {
+    width: 100%;
+    max-width: 100%;
+    position: relative; /* Change from absolute to relative */
+    overflow: visible; /* Change from hidden to visible */
 }
 
 .no-scroll {
@@ -242,23 +242,25 @@ body, html {
 
 
 
+.video-container {
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden; /* Only keep overflow hidden on the video container */
+}
+
 .video-container video {
-  position:relative;
-  z-index:-1;
-  width:100vw;
-  max-width: 100%;
-  height:100vh;
-  object-fit: cover;
-  display: block;
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
 }
 
 .showcase {
-  position: relative;
-  padding-bottom:0;
-  width:100%;
-  height:100vh;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    overflow: hidden;
 }
-
 .content {
   position: absolute;
   width: 100%;
@@ -883,20 +885,17 @@ row-gap: 30px; /* Explicitly set row gap */
 }
 
 .custom-partner-item {
-position: relative;
-cursor: pointer;
-transition: all 0.3s ease;
-border: 1px solid #777;
-/*border-radius: 8px;*/
-display: flex;
-flex-direction: column;
-padding: 10px;
-box-sizing: border-box;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid #bb9f52;  /* Changed from #777 to #bb9f52 */
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.custom-partner-item:hover {
-border-color: #bb9f52;
-}
+
 
 .custom-partner-item.dimmed {
 filter: brightness(0.6);
@@ -1640,6 +1639,14 @@ font-weight:500;
       font-size: 1.5em;
       color: #bb9f52;
   }
+
+  .nav-arrow-left {
+        margin-right: 15px; /* or your preferred spacing */
+    }
+
+    .nav-arrow-right {
+        margin-left: 15px; /* or your preferred spacing */
+    }
 
   .kor-txt {
   margin-bottom: 0px !important;
