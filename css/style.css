@@ -132,6 +132,7 @@ body, html {
     width: 30px;
     height: 30px;
     object-fit: contain;
+    margin-bottom:5px;
 }
 
 .menu-btn {
