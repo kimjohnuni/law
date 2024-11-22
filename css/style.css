@@ -877,9 +877,9 @@ font-family: "Noto Sans KR", sans-serif;
 .custom-partner-grid {
 display: grid;
 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-gap: 20px;
+gap: 30px;
 position: relative;
-row-gap: 20px; /* Explicitly set row gap */
+row-gap: 30px; /* Explicitly set row gap */
 }
 
 .custom-partner-item {
@@ -887,7 +887,7 @@ position: relative;
 cursor: pointer;
 transition: all 0.3s ease;
 border: 1px solid #777;
-border-radius: 8px;
+/*border-radius: 8px;*/
 display: flex;
 flex-direction: column;
 padding: 10px;
@@ -909,7 +909,7 @@ overflow: hidden;
 padding: 10px;
 box-sizing: border-box;
 width: 100%;
-aspect-ratio: 3/4;
+aspect-ratio: 3.5/4;
 }
 
 .custom-partner-img {
@@ -969,10 +969,11 @@ padding: 0 10px;
 }
 
 .info-panel {
+  font-family: "Noto Sans KR", sans-serif;
     background: #fff;
     border: 1px solid #bb9f52;
     border-radius: 8px;
-    padding: 20px;
+    padding: 40px;
     position: relative;
     opacity: 0;
     transform: translateY(-20px);
@@ -1000,18 +1001,21 @@ transition: left 0.3s ease;
 }
 
 .info-panel h2 {
+font-family: "Noto Sans KR", sans-serif;
 color: #bb9f52;
 margin: 0 0 5px 0;
 font-size: 24px;
 }
 
 .info-panel .position-title {
+font-family: "Noto Sans KR", sans-serif;
 color: #777777;
 font-size: 18px;
-margin: 0 0 15px 0;
+margin: 0 0 20px 0;
 }
 
 .info-panel p {
+font-family: "Noto Sans KR", sans-serif;
 color: #777777;
 line-height: 1.6;
 margin: 0;
@@ -1517,13 +1521,13 @@ font-weight:500;
 
 .custom-partner-title {
     padding: 0;
-    margin: 0;
+    margin-top: 10px !important;
     line-height: 1;
 }
 
 .custom-partner-subtitle {
     padding: 0;
-    margin-top: -40px;
+    margin-top: -10px !important;
     line-height: 1;
 }
 
@@ -1534,11 +1538,11 @@ font-weight:500;
 }
 
 .info-panel {
-   margin-bottom: 20px; /* Reduce bottom margin */
+   margin-bottom: 40px; /* Reduce bottom margin */
 }
 
 .info-panel-wrapper {
-   margin-bottom: 0; /* Remove any additional spacing */
+   margin-bottom: 40px; /* Remove any additional spacing */
 }
 .custom-partner-item {
        display: grid;
