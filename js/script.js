@@ -380,37 +380,45 @@ items.forEach(item => {
       }
 
       if (activePanel) {
-          const panel = activePanel.querySelector('.info-panel');
-          const contentDiv = panel.querySelector('.info-panel-content');
-          const arrow = panel.querySelector('.info-panel-arrow');
+    const panel = activePanel.querySelector('.info-panel');
+    const contentDiv = panel.querySelector('.info-panel-content');
+    const arrow = panel.querySelector('.info-panel-arrow');
 
-          // Update content and arrow position
-          contentDiv.innerHTML = content;
-          const itemRect = this.getBoundingClientRect();
-          const gridRect = grid.getBoundingClientRect();
-          const arrowLeft = itemRect.left - gridRect.left + (itemRect.width / 2) - 10;
-          arrow.style.left = `${arrowLeft}px`;
+    // Update content and arrow position
+    contentDiv.innerHTML = content;
 
-          // Move panel if needed
-          if (activePanel.previousElementSibling !== referenceNode) {
-              activePanel.remove();
-              referenceNode.insertAdjacentElement('afterend', activePanel);
-              scrollToPanel(activePanel);
-          }
+    const itemRect = this.getBoundingClientRect();
+    const gridRect = grid.getBoundingClientRect();
+    const arrowLeft = itemRect.left - gridRect.left + (itemRect.width / 2) - 10;
+    arrow.style.left = `${arrowLeft}px`;
 
-          // Update selected state
-          selectedItem.classList.remove('selected');
-          this.classList.add('selected');
-          selectedItem = this;
+    // Move panel if needed
+    if (activePanel.previousElementSibling !== referenceNode) {
+        activePanel.remove();
+        referenceNode.insertAdjacentElement('afterend', activePanel);
+    }
 
-          // Update overlays
-          items.forEach(otherItem => {
-              otherItem.querySelector('.partner-overlay').style.opacity =
-                  otherItem !== this ? '1' : '0';
-          });
+    // Reset height to auto temporarily to get the new content height
+    activePanel.style.height = 'auto';
+    const newHeight = panel.offsetHeight;
 
-          return;
-      }
+    // Animate to the new height
+    requestAnimationFrame(() => {
+        activePanel.style.height = `${newHeight}px`;
+        scrollToPanel(activePanel);
+    });
+
+    // Update selected state and overlays
+    selectedItem.classList.remove('selected');
+    this.classList.add('selected');
+    selectedItem = this;
+
+    items.forEach(otherItem => {
+        otherItem.querySelector('.partner-overlay').style.opacity = otherItem !== this ? '1' : '0';
+    });
+
+    return;
+}
 
       // Create new panel
       const { wrapper, infoPanel, closeButton } = createInfoPanel(content, this);
