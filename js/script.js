@@ -123,6 +123,88 @@ $(window).scroll(throttle(function() {
 
 
 
+/*COMPANY & ACHIEVEMENTS ACCORDION*/
+document.addEventListener('DOMContentLoaded', function() {
+    // Company Accordion
+    const companyTriggers = document.querySelectorAll('.company-accordion-trigger');
+
+    companyTriggers.forEach(trigger => {
+        trigger.addEventListener('click', () => {
+            const content = trigger.nextElementSibling;
+            const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+
+            // Close all company accordion items
+            document.querySelectorAll('.company-accordion-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.company-accordion-trigger').forEach(btn => {
+                btn.setAttribute('aria-expanded', 'false');
+            });
+
+            // Toggle current item
+            if (!isExpanded) {
+                content.classList.add('active');
+                trigger.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+
+    // Achievement Accordion
+    const achievementTriggers = document.querySelectorAll('.achievement-trigger');
+
+    achievementTriggers.forEach(trigger => {
+        const content = trigger.nextElementSibling;
+        const contentInner = content.querySelector('.achievement-body');
+
+        // Set initial states
+        trigger.setAttribute('aria-expanded', 'false');
+        content.style.maxHeight = '0';
+        content.style.opacity = '0';
+        content.style.visibility = 'hidden';
+
+        trigger.addEventListener('click', () => {
+            const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+
+            if (!isExpanded) {
+                // Close all other achievement items first
+                document.querySelectorAll('.achievement-content').forEach(item => {
+                    if (item !== content) {
+                        item.style.maxHeight = '0';
+                        item.style.opacity = '0';
+                        item.style.visibility = 'hidden';
+                        item.classList.remove('active');
+                    }
+                });
+                document.querySelectorAll('.achievement-trigger').forEach(btn => {
+                    if (btn !== trigger) {
+                        btn.setAttribute('aria-expanded', 'false');
+                    }
+                });
+
+                // Open clicked item
+                content.style.visibility = 'visible';
+                content.classList.add('active');
+                content.style.maxHeight = contentInner.scrollHeight + 'px';
+                content.style.opacity = '1';
+                trigger.setAttribute('aria-expanded', 'true');
+            } else {
+                // Close clicked item with transition
+                content.style.maxHeight = '0';
+                content.style.opacity = '0';
+                setTimeout(() => {
+                    content.style.visibility = 'hidden';
+                    content.classList.remove('active');
+                }, 300);
+                trigger.setAttribute('aria-expanded', 'false');
+            }
+        });
+    });
+});
+
+
+
+
+
 
 
 
@@ -394,6 +476,16 @@ items.forEach(item => {
       closeButton.addEventListener('click', closePanel);
   });
 });
+document.addEventListener('click', function(event) {
+   if (activePanel) {
+     const isClickInsidePartnerItem = event.target.closest('.custom-partner-item');
+     const isClickInsideInfoPanel = event.target.closest('.info-panel');
+
+     if (!isClickInsidePartnerItem && !isClickInsideInfoPanel) {
+       closePanel();
+     }
+   }
+ });
 });
 
 
