@@ -1454,6 +1454,10 @@ font-weight:500;
     flex-direction: column;
 }
 
+  .company-legal-title {
+    margin: 100px auto 20px;
+}
+
 .company-side-image {
     display: none;
 }
