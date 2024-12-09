@@ -1460,6 +1460,7 @@ font-weight:500;
 
 .company-custom-accordion {
     width: 100%;
+    flex: 0 1 350px;
 }
 
 .company-content-inner {
