@@ -408,12 +408,12 @@ z-index: 100;
 
 /* NEXT PREVIOUS BUTTONS AT THE BOTTOM OF PAGE */
 
-.nav-arrow {
-    height: 40px; /* Approximate height based on font-size 5.25rem */
-    width: auto; /* Maintain aspect ratio */
+/* Arrow Navigation Styles */
+.nav-arrow-left, .nav-arrow-right {
+    position: relative;
+    height: 40px;
+    width: auto;
     margin-bottom: 20px;
-    opacity: 1;
-    transition: opacity 0.3s ease;
 }
 
 .nav-arrow-left {
@@ -424,30 +424,50 @@ z-index: 100;
     margin-left: 40px;
 }
 
-/* Hover effects for arrows */
-.link-text:hover .nav-arrow-left {
-    content: url('../img/buttons/bottom-nav-hover-left.png');
+/* Hover state images */
+.link-text .nav-arrow-left::after,
+.link-text .nav-arrow-right::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-.link-text:hover .nav-arrow-right {
-    content: url('../img/buttons/bottom-nav-hover-right.png');
+.link-text .nav-arrow-left::after {
+    background: url('../img/buttons/bottom-nav-hover-left.png') no-repeat center/contain;
 }
 
-/* Original styles */
+.link-text .nav-arrow-right::after {
+    background: url('../img/buttons/bottom-nav-hover-right.png') no-repeat center/contain;
+}
+
+/* Show hover state on hover */
+.link-text:hover .nav-arrow-left::after,
+.link-text:hover .nav-arrow-right::after {
+    opacity: 1;
+}
+
+/* Text Container Styles */
 .text-container {
     display: flex;
-    flex-direction: column; /* Stack Korean text on top of English text */
+    flex-direction: column;
     align-items: center;
 }
 
 .text-container .display-4 {
-    line-height: 1.2; /* Adjust line-height to match the desired spacing */
+    line-height: 1.2;
 }
 
+/* Border Container */
 .border-container {
     max-height: 300px;
 }
 
+/* Content Centering */
 .center-content {
     display: flex;
     flex-direction: column;
@@ -457,18 +477,20 @@ z-index: 100;
     text-align: center;
 }
 
+/* Link Styles */
 .link-text {
     font-family: "Cormorant Garamond", serif;
-    text-decoration: none; /* Remove underline from links */
-    color: inherit; /* Ensure it inherits color, so we can apply custom color */
+    text-decoration: none;
+    color: inherit;
     cursor: pointer;
 }
 
 .link-text:hover .h6,
 .link-text:hover .display-4 {
-    filter: brightness(1.2); /* Lighten the color by 20% on hover */
+    filter: brightness(1.2);
 }
 
+/* Korean Text Styles */
 .kor-txt {
     margin-bottom: -10px !important;
 }
@@ -478,10 +500,12 @@ z-index: 100;
     font-family: "Noto Sans KR", sans-serif;
 }
 
+/* Navigation Link Styles */
 .pn-link {
     color: #bb9f52;
     font-size: 3.5em;
 }
+
 
 
 
