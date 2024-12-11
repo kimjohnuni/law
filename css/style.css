@@ -409,11 +409,13 @@ z-index: 100;
 /* NEXT PREVIOUS BUTTONS AT THE BOTTOM OF PAGE */
 
 /* Arrow Navigation Styles */
-.nav-arrow-left, .nav-arrow-right {
+.nav-arrow {
     position: relative;
     height: 40px;
     width: auto;
     margin-bottom: 20px;
+    opacity: 1;
+    transition: opacity 0.3s ease;
 }
 
 .nav-arrow-left {
@@ -424,30 +426,25 @@ z-index: 100;
     margin-left: 40px;
 }
 
-/* Hover state images */
-.link-text .nav-arrow-left::after,
-.link-text .nav-arrow-right::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
+/* Modified hover effects for arrows */
+.link-text .nav-arrow {
+    opacity: 1;
     transition: opacity 0.3s ease;
 }
 
-.link-text .nav-arrow-left::after {
-    background: url('../img/buttons/bottom-nav-hover-left.png') no-repeat center/contain;
+.link-text .nav-arrow-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
 }
 
-.link-text .nav-arrow-right::after {
-    background: url('../img/buttons/bottom-nav-hover-right.png') no-repeat center/contain;
+.link-text:hover .nav-arrow {
+    opacity: 0;
 }
 
-/* Show hover state on hover */
-.link-text:hover .nav-arrow-left::after,
-.link-text:hover .nav-arrow-right::after {
+.link-text:hover .nav-arrow-hover {
     opacity: 1;
 }
 
@@ -505,6 +502,7 @@ z-index: 100;
     color: #bb9f52;
     font-size: 3.5em;
 }
+
 
 
 
