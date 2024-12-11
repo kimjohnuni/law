@@ -18,6 +18,8 @@
   <link rel="shortcut icon" href="img/favicon/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.png" />
   <link rel="manifest" href="img/favicon/site.webmanifest" />
+  <link rel="preload" as="image" href="../img/buttons/bottom-nav-hover-left.png">
+  <link rel="preload" as="image" href="../img/buttons/bottom-nav-hover-right.png">
 </head>
 
 <body>
@@ -140,7 +142,10 @@
         <div class="col-6 d-flex justify-content-center border-end border-muted">
           <div class="center-content">
             <a href="partners.html" class="link-text d-flex align-items-center">
-              <img src="img/buttons/bottom-nav-left.png" class="nav-arrow nav-arrow-left" alt="Left arrow">
+              <div style="position: relative;">
+                <img src="img/buttons/bottom-nav-left.png" class="nav-arrow nav-arrow-left" alt="Left arrow">
+                <img src="img/buttons/bottom-nav-hover-left.png" class="nav-arrow nav-arrow-left nav-arrow-hover" alt="Left arrow hover">
+              </div>
               <div class="text-container">
                 <div class="h6 fw-bold kor-txt">구성원 소개</div>
                 <div class="pn-link">Partners</div>
@@ -156,7 +161,10 @@
                 <div class="h6 fw-bold kor-txt">처음으로</div>
                 <div class="pn-link">Home</div>
               </div>
-              <img src="img/buttons/bottom-nav-right.png" class="nav-arrow nav-arrow-right" alt="Right arrow">
+              <div style="position: relative;">
+                <img src="img/buttons/bottom-nav-right.png" class="nav-arrow nav-arrow-right" alt="Right arrow">
+                <img src="img/buttons/bottom-nav-hover-right.png" class="nav-arrow nav-arrow-right nav-arrow-hover" alt="Right arrow hover">
+              </div>
             </a>
           </div>
         </div>

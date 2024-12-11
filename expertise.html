@@ -18,6 +18,8 @@
   <link rel="shortcut icon" href="img/favicon/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.png" />
   <link rel="manifest" href="img/favicon/site.webmanifest" />
+  <link rel="preload" as="image" href="../img/buttons/bottom-nav-hover-left.png">
+  <link rel="preload" as="image" href="../img/buttons/bottom-nav-hover-right.png">
 </head>
 
 <body>
@@ -182,38 +184,42 @@
 <div class="container border-bottom border-muted"></div>
 
 <div class="container-fluid">
-  <!-- Row with two columns -->
-  <div class="container-fluid">
-      <!-- Row with two columns -->
-      <div class="border-container" style="max-height: 300px;">
-        <div class="row" style="min-height: 250px;">
-          <!-- Company Column -->
-          <div class="col-6 d-flex justify-content-center border-end border-muted">
-            <div class="center-content">
-              <a href="company.html" class="link-text d-flex align-items-center">
+    <!-- Row with two columns -->
+    <div class="border-container" style="max-height: 300px;">
+      <div class="row" style="min-height: 250px;">
+        <!-- Company Column -->
+        <div class="col-6 d-flex justify-content-center border-end border-muted">
+          <div class="center-content">
+            <a href="company.html" class="link-text d-flex align-items-center">
+              <div style="position: relative;">
                 <img src="img/buttons/bottom-nav-left.png" class="nav-arrow nav-arrow-left" alt="Left arrow">
-                <div class="text-container">
-                  <div class="h6 fw-bold kor-txt">사무소 소개</div>
-                  <div class="pn-link">Company</div>
-                </div>
-              </a>
-            </div>
+                <img src="img/buttons/bottom-nav-hover-left.png" class="nav-arrow nav-arrow-left nav-arrow-hover" alt="Left arrow hover">
+              </div>
+              <div class="text-container">
+                <div class="h6 fw-bold kor-txt">사무소 소개</div>
+                <div class="pn-link">Company</div>
+              </div>
+            </a>
           </div>
-          <!-- Partners Column -->
-          <div class="col-6 d-flex justify-content-center">
-            <div class="center-content">
-              <a href="partners.html" class="link-text d-flex align-items-center">
-                <div class="text-container">
-                  <div class="h6 fw-bold kor-txt">구성원 소개</div>
-                  <div class="pn-link">Partners</div>
-                </div>
+        </div>
+        <!-- Partners Column -->
+        <div class="col-6 d-flex justify-content-center">
+          <div class="center-content">
+            <a href="partners.html" class="link-text d-flex align-items-center">
+              <div class="text-container">
+                <div class="h6 fw-bold kor-txt">구성원 소개</div>
+                <div class="pn-link">Partners</div>
+              </div>
+              <div style="position: relative;">
                 <img src="img/buttons/bottom-nav-right.png" class="nav-arrow nav-arrow-right" alt="Right arrow">
-              </a>
-            </div>
+                <img src="img/buttons/bottom-nav-hover-right.png" class="nav-arrow nav-arrow-right nav-arrow-hover" alt="Right arrow hover">
+              </div>
+            </a>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
 
 
