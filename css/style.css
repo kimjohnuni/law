@@ -505,8 +505,6 @@ z-index: 100;
 
 
 
-
-
 /*COMPANY PAGE*/
 
 
@@ -965,22 +963,25 @@ font-family: "Noto Sans KR", sans-serif;
 }
 
 .custom-partner-grid {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-gap: 30px;
-position: relative;
-row-gap: 30px; /* Explicitly set row gap */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Increased from 250px to 300px */
+    gap: 30px;
+    position: relative;
+    row-gap: 30px;
 }
+
 
 .custom-partner-item {
     position: relative;
     cursor: pointer;
     transition: all 0.3s ease;
-    border: 1px solid #bb9f52;  /* Changed from #777 to #bb9f52 */
+    border: 1px solid #bb9f52;
     display: flex;
     flex-direction: column;
     padding: 20px;
     box-sizing: border-box;
+    width: 100%;
+    min-width: 300px; /* Added this line */
 }
 
 
@@ -991,12 +992,12 @@ transition: filter 0.3s ease;
 }
 
 .custom-partner-img-wrapper {
-position: relative;
-overflow: hidden;
-padding: 10px;
-box-sizing: border-box;
-width: 100%;
-aspect-ratio: 3.5/4;
+    position: relative;
+    overflow: hidden;
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    aspect-ratio: 4.5/4; /* Adjusted to make width 50px more than height */
 }
 
 .custom-partner-img {
@@ -1476,17 +1477,12 @@ font-weight:500;
     flex-direction: column;
 }
 
-  .company-legal-title {
-    margin: 100px auto 20px;
-}
-
 .company-side-image {
     display: none;
 }
 
 .company-custom-accordion {
     width: 100%;
-    flex: 0 1 350px;
 }
 
 .company-content-inner {
